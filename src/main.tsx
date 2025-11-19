@@ -5,6 +5,7 @@ import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/Autentication/Login.tsx'
 import Register from './pages/Autentication/Register.tsx'
+import { Toaster } from 'sonner'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
@@ -15,5 +16,6 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router}/>
+    <Toaster richColors position="top-center" />
   </StrictMode>,
 )

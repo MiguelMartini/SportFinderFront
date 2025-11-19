@@ -4,6 +4,7 @@ import "./index.css";
 
 import Login from "./pages/Autentication/Login";
 import Menu from "./components/custom/Menu";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Menu/>
 
       <Login/>
+      <Toaster richColors position="top-center" />
     </div>
   );
 }
