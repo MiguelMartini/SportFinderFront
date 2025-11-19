@@ -2,7 +2,6 @@ import { registerUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
@@ -22,6 +21,13 @@ const Register = () => {
     confirmedPass?: string;
   }>({});
 
+  const setStates = () => {
+      setEmail("");
+      setName("");
+      setPassword("");
+      setConfirmedPass("");
+  }
+
   const handleRegister = async () => {
     setErrors({});
     setLoading(true);
@@ -34,6 +40,7 @@ const Register = () => {
         password_confirmation: confirmedPass,
       });
       toast.success("Cadastro realizado com sucesso");
+      setStates();
 
     } catch (error: any) {
       if (error.response && error.response.data.message) {
@@ -45,12 +52,14 @@ const Register = () => {
         });
         setTimeout(function () {
           setErrors({});
-        }, 5000);
+          setStates();
+        }, 3000);
 
         toast.error("error");
         setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
+        setStates();
       }
     }
     setLoading(false);

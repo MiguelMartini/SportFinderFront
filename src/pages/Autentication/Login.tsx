@@ -2,7 +2,6 @@ import { loginUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
 import InputForm from "@/components/custom/inputForm";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -22,6 +21,11 @@ const Login = () => {
     teste?: string;
   }>({});
 
+    const setStates = () => {
+      setEmail("");
+      setPassword("");
+  }
+
   const handleLogin = async () => {
     setErrors({});
     setLoading(true);
@@ -34,6 +38,7 @@ const Login = () => {
       console.log(teste)
       console.log(response.data.data.token)
       toast.success(response.data.message);
+      setStates();
     }catch (error: any){
       if(error.response && error.response.data.message){
         const msgs = error.response.data.message;
@@ -44,13 +49,15 @@ const Login = () => {
         });
         setTimeout(function () {
           setErrors({});
-        }, 5000);
+          setStates();
+        }, 3000);
 
         console.log(teste)
         toast.error("error");
         setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
+        setStates();
       }
     }
     setLoading(false);
