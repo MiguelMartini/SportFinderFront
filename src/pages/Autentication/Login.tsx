@@ -66,7 +66,7 @@ const Login = () => {
           <div className="mt-5">
             <label className="text-base md:text-lg font-medium">E-mail</label>
             <Input
-              className="bg-gray-50 text-sm w-full mb-5 p-3 md:p-4 lg:p-5 rounded-xl"
+              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite seu endereço de e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -76,10 +76,10 @@ const Login = () => {
             )}
           </div>
 
-          <div>
+          <div className="mt-4">
             <label className="text-base md:text-lg font-medium">Senha</label>
             <Input
-              className="bg-gray-50 text-sm w-full mb-5 p-3 md:p-4 lg:p-5 rounded-xl"
+              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite sua senha"
               type="password"
               value={password}
@@ -90,7 +90,7 @@ const Login = () => {
             )}
           </div>
 
-          <div className="items-center">
+          <div className="items-center mt-5">
             <p>
               <a
                 href="#"
