@@ -1,44 +1,60 @@
+import { registerUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
+import { Spinner } from "@/components/ui/spinner";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [nome, setNome] = useState("");
-  const [senha, setSenha] = useState("");
-
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmedPass, setConfirmedPass] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<{
     email?: string;
-    nome?: string;
-    senha?: string;
+    name?: string;
+    password?: string;
+    confirmedPass?: string;
   }>({});
 
-  const validateInput = () => {
-    const newError: any = {};
+  const handleRegister = async () => {
+    setErrors({});
+    setLoading(true);
 
-    if (email != "miguel@gmail.com") {
-      newError.email = "E-mail inválido";
+    try {
+      const response = await registerUser({
+        email,
+        name,
+        password,
+        password_confirmation: confirmedPass,
+      });
+
+      // console.log("resposta da api", response.data);
+      toast.success("Cadastro realizado com sucesso");
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        const msgs = error.response.data.message;
+        const backendErrors: any = {};
+
+        Object.keys(msgs).forEach((field) => {
+          backendErrors[field] = msgs[field][0];
+        });
+        setTimeout(function () {
+          setErrors({});
+        }, 5000);
+
+        toast.error("error");
+        setErrors(backendErrors);
+      } else {
+        toast.error("Erro de conexão com o servidor.");
+      }
+    } finally {
+      setLoading(false);
     }
-
-    if (senha != "123456789") {
-      newError.senha = "Credenciais inválidos";
-    }
-    if (nome == "") {
-      newError.nome = "Campo deve ser preenchido";
-    }
-
-    setErrors(newError);
-    return Object.keys(newError).length === 0;
-  };
-
-  const handleRegister = () => {
-    if (!validateInput()) return;
-
-    alert("Cadastro realizado com sucesso!");
   };
 
   return (
@@ -61,19 +77,23 @@ const Register = () => {
               className="bg-gray-50 text-sm w-full mb-1 p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite seu endereço de e-mail"
               value={email}
-              onChange={(e) =>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            {errors.email && <p className="text-red-500 text-sm font-medium">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm font-medium">{errors.email}</p>
+            )}
           </div>
           <div className="mt-4">
             <label className="text-base md:text-lg font-medium">Nome</label>
             <Input
               className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite seu nome completo"
-              value={nome}
-              onChange={(e) =>setNome(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-            {errors.nome && <p className="text-red-500 text-sm font-medium">{errors.nome}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm font-medium">{errors.name}</p>
+            )}
           </div>
 
           <div className="mt-4">
@@ -82,14 +102,39 @@ const Register = () => {
               className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite sua senha"
               type="password"
-              value={senha}
-              onChange={(e) =>setSenha(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            {errors.senha && <p className="text-red-500 text-sm font-medium">{errors.senha}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm font-medium">
+                {errors.password}
+              </p>
+            )}
+          </div>
+          <div className="mt-4">
+            <label className="text-base md:text-lg font-medium">
+              Confirmar Senha
+            </label>
+            <Input
+              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
+              placeholder="Digite sua senha"
+              type="password"
+              value={confirmedPass}
+              onChange={(e) => setConfirmedPass(e.target.value)}
+            />
           </div>
           <div className="flex flex-col mt-10 gap-3">
-            <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700" onClick={handleRegister}>
-              Registrar
+            <Button
+              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
+              onClick={handleRegister}
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <Spinner />
+                </div>
+              ) : (
+                "Registrar"
+              )}
             </Button>
 
             <p className="text-gray-500 font-medium text-sm md:text-base">
