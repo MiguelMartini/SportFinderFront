@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
+import InputForm from "@/components/custom/inputForm";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -69,56 +70,42 @@ const Register = () => {
           <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
 
           <div className="mt-5">
-            <label className="text-base md:text-lg font-medium">E-mail</label>
-            <Input
-              className="bg-gray-50 text-sm w-full mb-1 p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite seu endereço de e-mail"
+            <InputForm 
+              labelValue={"E-mail"} 
+              placeholder={"Digite seu endereço de e-mail"}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm font-medium">{errors.email}</p>
-            )}
+              onChange={setEmail}
+              error={errors.email}
+              />
           </div>
           <div className="mt-4">
-            <label className="text-base md:text-lg font-medium">Nome</label>
-            <Input
-              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite seu nome completo"
+            <InputForm 
+              labelValue={"Nome"} 
+              placeholder={"Digite seu nome"}
               value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm font-medium">{errors.name}</p>
-            )}
+              onChange={setName}
+              error={errors.name}
+              />
           </div>
 
           <div className="mt-4">
-            <label className="text-base md:text-lg font-medium">Senha</label>
-            <Input
-              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite sua senha"
-              type="password"
+            <InputForm 
+              labelValue={"Senha"} 
+              placeholder={"Digite sua senha"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm font-medium">
-                {errors.password}
-              </p>
-            )}
+              onChange={setPassword}
+              error={errors.password}
+              type="password"
+              />
           </div>
           <div className="mt-4">
-            <label className="text-base md:text-lg font-medium">
-              Confirmar Senha
-            </label>
-            <Input
-              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite sua senha"
-              type="password"
+            <InputForm 
+              labelValue={"Confirmar senha"} 
+              placeholder={"confirme sua senha"}
               value={confirmedPass}
-              onChange={(e) => setConfirmedPass(e.target.value)}
-            />
+              onChange={setConfirmedPass}
+              type="password"
+              />
           </div>
           <div className="flex flex-col mt-10 gap-3">
             <Button
