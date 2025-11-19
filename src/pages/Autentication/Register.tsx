@@ -32,9 +32,8 @@ const Register = () => {
         password,
         password_confirmation: confirmedPass,
       });
-
-      // console.log("resposta da api", response.data);
       toast.success("Cadastro realizado com sucesso");
+
     } catch (error: any) {
       if (error.response && error.response.data.message) {
         const msgs = error.response.data.message;
@@ -52,9 +51,8 @@ const Register = () => {
       } else {
         toast.error("Erro de conexão com o servidor.");
       }
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -64,7 +62,6 @@ const Register = () => {
           <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold">
             Seja bem-vindo
           </h1>
-
           <p className="font-medium text-base md:text-lg text-gray-500 mt-4 ">
             Registre-se agora no SportFinder!
           </p>
@@ -128,13 +125,7 @@ const Register = () => {
               className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
               onClick={handleRegister}
             >
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <Spinner />
-                </div>
-              ) : (
-                "Registrar"
-              )}
+              {loading ? <Spinner /> : "Registrar"}
             </Button>
 
             <p className="text-gray-500 font-medium text-sm md:text-base">

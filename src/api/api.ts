@@ -14,7 +14,13 @@ export const registerUser = (data: {
   password: string;
   password_confirmation: string;
 }) => {
-  return api.post("/register", data); // sua rota Laravel
+  return api.post("/register", data);
 };
 
+export const loginUser = (data: {
+  email: string;
+  password: string;
+}) => {
+  return api.post("/login", data);
+}
 export default api;

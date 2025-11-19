@@ -1,10 +1,54 @@
+import { loginUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { toast } from "sonner";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [errors, setErrors] = useState<{
+    email?: string;
+    password?: string;
+  }>({});
+
+  const handleLogin = async () => {
+    setErrors({});
+    setLoading(true);
+
+    try{
+      const response = await loginUser({
+        email,
+        password,
+      });
+      console.log(response.data.data.token)
+      toast.success(response.data.message);
+    }catch (error: any){
+      if(error.response && error.response.data.message){
+        const msgs = error.response.data.message;
+        const backendErrors: any = {};
+
+        Object.keys(msgs).forEach((field) => {
+          backendErrors[field] = msgs[field][0];
+        });
+        setTimeout(function () {
+          setErrors({});
+        }, 5000);
+
+        toast.error("error");
+        setErrors(backendErrors);
+      } else {
+        toast.error("Erro de conexão com o servidor.");
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="flex w-full h-screen flex-col justify-between">
       <div className="w-full flex items-center justify-center flex-1">
@@ -24,7 +68,12 @@ const Login = () => {
             <Input
               className="bg-gray-50 text-sm w-full mb-5 p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite seu endereço de e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm font-medium">{errors.email}</p>
+            )}
           </div>
 
           <div>
@@ -33,7 +82,12 @@ const Login = () => {
               className="bg-gray-50 text-sm w-full mb-5 p-3 md:p-4 lg:p-5 rounded-xl"
               placeholder="Digite sua senha"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm font-medium">{errors.password}</p>
+            )}
           </div>
 
           <div className="items-center">
@@ -48,8 +102,9 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col mt-5 gap-3">
-            <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700">
-              Entrar
+            <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
+            onClick={handleLogin}>
+              {loading ? <Spinner /> : "Entrar"}
             </Button>
 
             <p className="text-gray-500 font-medium text-sm md:text-base">
@@ -64,7 +119,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <Copyrights/>
+      <Copyrights />
     </div>
   );
 };
