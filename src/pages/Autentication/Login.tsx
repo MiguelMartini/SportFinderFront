@@ -1,5 +1,6 @@
 import { loginUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
+import InputForm from "@/components/custom/inputForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
@@ -7,14 +8,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [teste, setTeste] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
+    teste?: string;
   }>({});
 
   const handleLogin = async () => {
@@ -26,6 +31,7 @@ const Login = () => {
         email,
         password,
       });
+      console.log(teste)
       console.log(response.data.data.token)
       toast.success(response.data.message);
     }catch (error: any){
@@ -40,6 +46,7 @@ const Login = () => {
           setErrors({});
         }, 5000);
 
+        console.log(teste)
         toast.error("error");
         setErrors(backendErrors);
       } else {
@@ -64,30 +71,24 @@ const Login = () => {
           <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
 
           <div className="mt-5">
-            <label className="text-base md:text-lg font-medium">E-mail</label>
-            <Input
-              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite seu endereço de e-mail"
+            <InputForm 
+              labelValue={"E-mail"} 
+              placeholder={"Digite seu endereço de e-mail"}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm font-medium">{errors.email}</p>
-            )}
+              onChange={setEmail}
+              error={errors.email}
+              />
           </div>
 
           <div className="mt-4">
-            <label className="text-base md:text-lg font-medium">Senha</label>
-            <Input
-              className="bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
-              placeholder="Digite sua senha"
-              type="password"
+            <InputForm 
+              labelValue={"Senha"} 
+              placeholder={"Digite sua senha"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm font-medium">{errors.password}</p>
-            )}
+              onChange={setPassword}
+              error={errors.password}
+              type="password"
+              />
           </div>
 
           <div className="items-center mt-5">
@@ -100,7 +101,6 @@ const Login = () => {
               </a>
             </p>
           </div>
-
           <div className="flex flex-col mt-5 gap-3">
             <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
             onClick={handleLogin}>
