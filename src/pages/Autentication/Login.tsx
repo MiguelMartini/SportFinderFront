@@ -2,19 +2,22 @@ import { loginUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
 import InputForm from "@/components/custom/inputForm";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [teste, setTeste] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { setToken } = useAuth();
 
   const [errors, setErrors] = useState<{
     email?: string;
@@ -31,9 +34,15 @@ const Login = () => {
         email,
         password,
       });
-      console.log(teste)
-      console.log(response.data.data.token)
-      toast.success(response.data.message);
+
+      const token = response.data.data.token;
+      setToken(token);
+      toast.success("Logado com sucesso!");
+
+      setTimeout(function () {
+          navigate('/dash');
+        }, 2000);
+      
     }catch (error: any){
       if(error.response && error.response.data.message){
         const msgs = error.response.data.message;

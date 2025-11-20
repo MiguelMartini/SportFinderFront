@@ -2,7 +2,6 @@ import { registerUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";

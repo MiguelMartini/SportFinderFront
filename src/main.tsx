@@ -6,16 +6,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/Autentication/Login.tsx'
 import Register from './pages/Autentication/Register.tsx'
 import { Toaster } from 'sonner'
+import { AuthProvider } from './context/AuthContext.tsx'
+import Dash from './pages/Dashboard/Dash.tsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <Login/>},
   {path: "/register", element: <Register/>},
+  {path: "/dash", element: <Dash/>},
 ])
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router}/>
-    <Toaster richColors position="top-center" />
+    <AuthProvider>
+      <RouterProvider router={router}/>
+      <Toaster richColors position="top-center" />
+    </AuthProvider>
   </StrictMode>,
 )
