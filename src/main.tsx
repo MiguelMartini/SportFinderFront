@@ -7,13 +7,13 @@ import Login from './pages/Autentication/Login.tsx'
 import Register from './pages/Autentication/Register.tsx'
 import { Toaster } from 'sonner'
 import { AuthProvider } from './context/AuthContext.tsx'
-import Dash from './pages/Dashboard/Dash.tsx'
+import Home from './pages/Home/Home.tsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <Login/>},
   {path: "/register", element: <Register/>},
-  {path: "/dash", element: <Dash/>},
+  {path: "/home", element: <Home/>},
 ])
 
 createRoot(document.getElementById('root')!).render(
