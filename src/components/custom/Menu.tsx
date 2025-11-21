@@ -11,6 +11,8 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { MenubarShortcut } from "../ui/menubar";
+import { CircleUser } from "lucide-react";
+import { Earth } from 'lucide-react';
 
 const Menu = () => {
   const teste = () => {
@@ -18,11 +20,16 @@ const Menu = () => {
   };
   return (
     <div>
-      <div className="flex justify-center ">
-        <Menubar className="flex justify-between w-full px-20 items-center">
-            <h1 className="flex justify-start">SportFinder</h1>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-5xl px-6 my-10">
+        <Menubar className="flex justify-between items-center w-full py-6 rounded-xl px-10 bg-white text-gray-600 border-none shadow-xl/30 bg-amber-600">
+          <div className="flex cursor-pointer gap-3 items-center">
+            <Earth /> 
+            <p className="font-bold text-lg">SportFinder</p>
+          </div>
           <MenubarMenu>
-            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarTrigger className="font-medium text-lg">
+              File
+            </MenubarTrigger>
             <MenubarContent>
               <MenubarItem>
                 New Tab <MenubarShortcut>⌘T</MenubarShortcut>
@@ -95,7 +102,13 @@ const Menu = () => {
             </MenubarContent>
           </MenubarMenu>
           <MenubarMenu>
-            <MenubarTrigger>Perfil</MenubarTrigger>
+            <MenubarTrigger className="flex items-center cursor-pointer gap-3">
+              <p className="font-medium text-lg">Perfil</p>
+              <div className="bg-white p-1 rounded-full">
+                <CircleUser/>
+              </div>
+            </MenubarTrigger>
+
             <MenubarContent>
               <MenubarSeparator />
               <MenubarItem inset onClick={teste}>

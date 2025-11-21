@@ -1,5 +1,8 @@
 import { getUsers } from "@/api/api";
 import Logout from "@/components/custom/Logout";
+import MapComponent from "@/components/custom/Map";
+import Menu from "@/components/custom/Menu";
+import { Menubar } from "@/components/ui/menubar";
 import React, { useEffect, useState } from "react";
 
 interface User{
@@ -43,20 +46,8 @@ const [users, setUsers] = useState<User[]>([]);
 
   return (
      <div>
-      <h1>Usuários</h1>
-
-      {users.length === 0 ? (
-        <p>Nenhum usuário encontrado.</p>
-      ) : (
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              <strong>{user.id}</strong>:<strong>{user.name}</strong> — {user.email}
-            </li>
-          ))}
-        </ul>
-      )}
-      <Logout/>
+      <Menu/>
+      <MapComponent/>
     </div>
   )
 };
