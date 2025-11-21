@@ -82,7 +82,7 @@ export default function MapOL() {
   }, [vectorSource]);
 
   return (
-    <div className="p-2 bg-amber-700">
+    <div>
       <div className="rounded-full"
         ref={mapRef}
         style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
