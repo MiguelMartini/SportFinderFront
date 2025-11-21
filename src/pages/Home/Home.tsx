@@ -1,8 +1,6 @@
 import { getUsers } from "@/api/api";
-import Logout from "@/components/custom/Logout";
 import MapComponent from "@/components/custom/Map";
 import Menu from "@/components/custom/Menu";
-import { Menubar } from "@/components/ui/menubar";
 import React, { useEffect, useState } from "react";
 
 interface User{
