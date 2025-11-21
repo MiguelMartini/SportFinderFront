@@ -13,11 +13,17 @@ import {
 import { MenubarShortcut } from "../ui/menubar";
 import { CircleUser } from "lucide-react";
 import { Earth } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import { logOut } from "@/api/api";
 
 const Menu = () => {
-  const teste = () => {
-    console.log("Hello");
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logOut();
+    navigate('/login');
   };
+  
   return (
     <div>
       <div className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-5xl px-6 my-10">
@@ -111,11 +117,11 @@ const Menu = () => {
 
             <MenubarContent>
               <MenubarSeparator />
-              <MenubarItem inset onClick={teste}>
+              <MenubarItem inset>
                 Editar
               </MenubarItem>
               <MenubarSeparator />
-              <MenubarItem inset>Sair</MenubarItem>
+              <MenubarItem inset onClick={handleLogout}>Sair</MenubarItem>
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
