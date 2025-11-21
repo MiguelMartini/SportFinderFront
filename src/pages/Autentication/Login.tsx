@@ -40,7 +40,7 @@ const Login = () => {
       toast.success("Logado com sucesso!");
 
       setTimeout(function () {
-          navigate('/dash');
+          navigate('/home');
         }, 2000);
       
     }catch (error: any){
