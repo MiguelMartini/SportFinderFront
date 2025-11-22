@@ -8,12 +8,14 @@ import Register from './pages/Autentication/Register.tsx'
 import { Toaster } from 'sonner'
 import { AuthProvider } from './context/AuthContext.tsx'
 import Home from './pages/Home/Home.tsx'
+import Editar from './pages/Perfil/Editar.tsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <Login/>},
   {path: "/register", element: <Register/>},
   {path: "/home", element: <Home/>},
+  {path: "/perfil/editar", element: <Editar/>},
 ])
 
 createRoot(document.getElementById('root')!).render(

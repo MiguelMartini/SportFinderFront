@@ -25,6 +25,9 @@ const Menu = () => {
       navigate("/login");
     }
   };
+  const editarProfile = () => {
+    navigate("/perfil/editar")
+  }
 
   return (
     <div>
@@ -82,7 +85,7 @@ const Menu = () => {
                 </div>
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem inset>Editar</MenubarItem>
+                <MenubarItem inset onClick={editarProfile} className="cursor-pointer">Editar</MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem inset onClick={handleLogout}>
                   Sair

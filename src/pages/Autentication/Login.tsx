@@ -35,8 +35,12 @@ const Login = () => {
         password,
       });
 
+      
       const token = response.data.data.token;
       setToken(token);
+      const userId = response.data.data.id;
+      localStorage.setItem("user_id", userId);
+
       toast.success("Logado com sucesso!");
 
       setTimeout(function () {
