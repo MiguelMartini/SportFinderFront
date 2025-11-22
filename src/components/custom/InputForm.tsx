@@ -6,10 +6,11 @@ interface inputFormProps {
   value: string;
   type?: string;
   error?: string;
-  onChange: (value:string) => void
+  disabled?: boolean;
+  onChange?: (value:string) => void
 }
 
-const InputForm = ({ labelValue, placeholder, value, type, error, onChange }: inputFormProps) => {
+const InputForm = ({ labelValue, placeholder, value, type, error, onChange, disabled }: inputFormProps) => {
   return (
     <div>
       <label className="text-base md:text-lg font-medium">{labelValue}</label>
@@ -19,6 +20,7 @@ const InputForm = ({ labelValue, placeholder, value, type, error, onChange }: in
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={type}
+        disabled = {disabled}
       />
       {error && (
               <p className="text-red-500 text-sm font-medium">{error}</p>

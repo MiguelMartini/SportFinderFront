@@ -38,7 +38,25 @@ export const getUsers = () => {
   return api.get("/users");
 };
 
+export const getUser = () => {
+  const userId = localStorage.getItem("user_id")
+  return api.get(`/users/${userId}`);
+};
+
+export const editUser = (data: {
+  email?: string;
+  name?: string;
+  documento?: string;
+  role?: string;
+  password: string;
+  password_confirmation: string;
+}) => {
+  const userId = localStorage.getItem("user_id")
+  return api.patch(`/users/edit/${userId}`, data);
+};
+
 export const logOut = () => {
   return api.post("/logout");
 };
+
 export default api;
