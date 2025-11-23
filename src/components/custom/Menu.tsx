@@ -22,6 +22,7 @@ const Menu = () => {
       toast.error("Erro ao fazer logout: ");
     } finally {
       localStorage.removeItem("token");
+      localStorage.removeItem("user_id");
       navigate("/login");
     }
   };

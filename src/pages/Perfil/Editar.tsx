@@ -49,11 +49,14 @@ const Editar = () => {
         setName(response.data.message.name);
         setEmail(response.data.message.email);
         setDocumento(response.data.message.documento);
+      
       } catch (error: any) {
         console.log(error.data);
         toast.error("Erro ao buscar usuário");
       }
+      
     };
+     
     fectchUser();
   }, []);
 
@@ -162,6 +165,7 @@ const Editar = () => {
               error={errors.confirmedPass}
             />
           </div>
+          <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
           <div className="flex items-center space-x-2 my-5">
             <Switch
               checked={admIn}
@@ -172,8 +176,7 @@ const Editar = () => {
               Cadastrar-se como Administrador
             </Label>
           </div>
-
-          {admIn && (
+          {(admIn || documento) && (
             <div className="flex flex-row items-start gap-4">
               <div className="w-1/2">
                 <InputForm
