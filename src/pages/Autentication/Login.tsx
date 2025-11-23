@@ -25,6 +25,11 @@ const Login = () => {
     teste?: string;
   }>({});
 
+    const setStates = () => {
+      setEmail("");
+      setPassword("");
+  }
+
   const handleLogin = async () => {
     setErrors({});
     setLoading(true);
@@ -57,13 +62,15 @@ const Login = () => {
         });
         setTimeout(function () {
           setErrors({});
-        }, 5000);
+          setStates();
+        }, 3000);
 
         console.log(teste)
         toast.error("error");
         setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
+        setStates();
       }
     }
     setLoading(false);

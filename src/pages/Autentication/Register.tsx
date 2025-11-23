@@ -21,6 +21,13 @@ const Register = () => {
     confirmedPass?: string;
   }>({});
 
+  const setStates = () => {
+      setEmail("");
+      setName("");
+      setPassword("");
+      setConfirmedPass("");
+  }
+
   const handleRegister = async () => {
     setErrors({});
     setLoading(true);
@@ -33,6 +40,7 @@ const Register = () => {
         password_confirmation: confirmedPass,
       });
       toast.success("Cadastro realizado com sucesso");
+      setStates();
 
     } catch (error: any) {
       if (error.response && error.response.data.message) {
@@ -44,12 +52,14 @@ const Register = () => {
         });
         setTimeout(function () {
           setErrors({});
-        }, 5000);
+          setStates();
+        }, 3000);
 
         toast.error("error");
         setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
+        setStates();
       }
     }
     setLoading(false);
