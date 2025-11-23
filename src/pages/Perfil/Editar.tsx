@@ -21,7 +21,9 @@ const Editar = () => {
     email: "",
     documento: "",
   });
+
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [documento, setDocumento] = useState("");
@@ -32,10 +34,10 @@ const Editar = () => {
 
   const [errors, setErrors] = useState<{
     email?: string;
-    name?:string;
-    password?: string;
-    confirmedPass?: string;
-    documento?: string,
+    name?: string;
+    password: string;
+    confirmedPass: string;
+    documento: string;
   }>({});
 
   useEffect(() => {
@@ -48,7 +50,8 @@ const Editar = () => {
         setEmail(response.data.message.email);
         setDocumento(response.data.message.documento);
       } catch (error: any) {
-        console.log("Erro né");
+        console.log(error.data);
+        toast.error("Erro ao buscar usuário");
       }
     };
     fectchUser();
@@ -57,10 +60,9 @@ const Editar = () => {
   const handleSave = async () => {
     setLoading(true);
     setErrors({});
-
-    try{
-      if(admIn){
-
+    try {
+      if (admIn) {
+        console.log("Caiu aqui");
         const response = await editUser({
           name,
           email,
@@ -69,25 +71,44 @@ const Editar = () => {
           password,
           password_confirmation: confirmedPass,
         });
-        
+
         console.log(response);
         toast.success("Usuário atualizado com sucesso");
-      }else{ 
+        navigate("/home");
+      } else {
+        console.log("Caiu aqui sem admin");
         const response = await editUser({
           name,
           email,
+          role: "usuario",
+          documento: "",
           password,
           password_confirmation: confirmedPass,
         });
         console.log(response);
         toast.success("Usuário atualizado com sucesso");
+        navigate("/home");
       }
-    }catch (error: any){
-      console.log(error)
-    }finally{
-      setLoading(false);
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        const msgs = error.response.data.message;
+        const backendErrors: any = {};
+
+        Object.keys(msgs).forEach((field) => {
+          backendErrors[field] = msgs[field][0];
+        });
+        setTimeout(function () {
+          setErrors({});
+        }, 5000);
+
+        toast.error("Verifique os campos");
+        setErrors(backendErrors);
+      } else {
+        toast.error("Erro de conexão com o servidor.");
+      }
     }
-  }
+    setLoading(false);
+  };
   const backMenu = () => {
     navigate("/home");
   };
@@ -142,31 +163,37 @@ const Editar = () => {
             />
           </div>
           <div className="flex items-center space-x-2 my-5">
-            <Switch checked={admIn} onCheckedChange={setAdmIn} id="airplane-mode" />
+            <Switch
+              checked={admIn}
+              onCheckedChange={setAdmIn}
+              id="airplane-mode"
+            />
             <Label htmlFor="airplane-mode">
               Cadastrar-se como Administrador
             </Label>
           </div>
 
-          {admIn && (<div className="flex flex-row items-start gap-4">
-            <div className="w-1/2">
-              <InputForm
-                labelValue={"Documento"}
-                placeholder={"Documento CNPJ"}
-                value={user.documento}
-                onChange={setDocumento}
-                error={errors.documento}
-              />
+          {admIn && (
+            <div className="flex flex-row items-start gap-4">
+              <div className="w-1/2">
+                <InputForm
+                  labelValue={"Documento"}
+                  placeholder={"Documento CNPJ"}
+                  value={documento ?? ""}
+                  onChange={setDocumento}
+                  error={errors.documento}
+                />
+              </div>
+              <div className="w-1/2">
+                <InputForm
+                  labelValue={"Papel"}
+                  placeholder={"Admin"}
+                  value={"Admin"}
+                  disabled={true}
+                />
+              </div>
             </div>
-            <div className="w-1/2">
-              <InputForm
-                labelValue={"Papel"}
-                placeholder={"Admin"}
-                value={"Admin"}
-                disabled={true}
-              />
-            </div>
-          </div>)}
+          )}
 
           <div className="flex flex-row justify-center mt-10 gap-3">
             <Button
@@ -175,7 +202,10 @@ const Editar = () => {
             >
               Cancelar
             </Button>
-            <Button onClick={handleSave} className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl ">
+            <Button
+              onClick={handleSave}
+              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
+            >
               {loading ? <Spinner /> : "Salvar"}
             </Button>
           </div>
