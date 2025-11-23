@@ -10,14 +10,15 @@ import { AuthProvider } from './context/AuthContext.tsx'
 import Home from './pages/Home/Home.tsx'
 import Editar from './pages/Perfil/Editar.tsx'
 import Create from './pages/Areas/Create.tsx'
+import ProtectedRoute from './routes/ProtectedRoute.tsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <Login/>},
   {path: "/register", element: <Register/>},
-  {path: "/home", element: <Home/>},
-  {path: "/perfil/editar", element: <Editar/>},
-  {path: "/areas/create", element: <Create/>},
+  {path: "/home", element: <ProtectedRoute><Home/></ProtectedRoute>},
+  {path: "/perfil/editar", element: <ProtectedRoute><Editar/></ProtectedRoute>},
+  {path: "/areas/create", element: <ProtectedRoute><Create/></ProtectedRoute>},
 ])
 
 createRoot(document.getElementById('root')!).render(
