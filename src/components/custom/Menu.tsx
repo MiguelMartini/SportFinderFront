@@ -29,6 +29,9 @@ const Menu = () => {
   const editarProfile = () => {
     navigate("/perfil/editar")
   }
+  const createArea = () => {
+    navigate("/areas/create")
+  }
 
   return (
     <div>
@@ -71,10 +74,13 @@ const Menu = () => {
                 Áreas Esportivas
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>Consultar</MenubarItem>
+                <MenubarItem onClick={createArea}>Criar</MenubarItem>
+                <MenubarSeparator />
+                <MenubarItem onClick={() => navigate("/home")}>Consultar</MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem>Editar</MenubarItem>
               </MenubarContent>
+              
             </MenubarMenu>
 
             <MenubarMenu>

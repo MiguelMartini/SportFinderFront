@@ -55,6 +55,22 @@ export const editUser = (data: {
   return api.patch(`/users/edit/${userId}`, data);
 };
 
+export const createArea = (data: {
+  titulo: string;
+  descricao?: string;
+
+  rua: string;
+  numero?: number;
+  bairro: string;
+  cidade: string;
+  estado: string;
+  cep: string;
+  complemento: string;
+}) => {
+  const userId = localStorage.getItem("user_id")
+  return api.post(`areas`, {...data, id_administrador:userId});
+};
+
 export const logOut = () => {
   return api.post("/logout");
 };
