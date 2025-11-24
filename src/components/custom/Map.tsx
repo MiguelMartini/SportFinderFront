@@ -33,6 +33,12 @@ export default function MapOL() {
   let subtitle = useRef<HTMLHeadingElement | null>(null);
 
 
+  const mapDots = [
+  { lon: -50.3205, lat: -27.8102 },
+  { lon: -50.3212, lat: -27.8130 },
+  { lon: -50.3189, lat: -27.8095 },
+];
+
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -52,21 +58,38 @@ export default function MapOL() {
       }),
     });
 
+     mapDots.forEach((dot) => {
+    const feature = new Feature({
+      geometry: new Point(fromLonLat([dot.lon, dot.lat])),
+    });
+
+    feature.setStyle(
+      new Style({
+        image: new Icon({
+          src: "https://openlayers.org/en/latest/examples/data/dot.png",
+          scale: 1.0,
+        }),
+      })
+    );
+
+    vectorSource.addFeature(feature);
+  });
+
     // Evento de clique no mapa
     initialMap.on("click", (e) => {
-      // Criar marcador
-      const feature = new Feature({
-        geometry: new Point(e.coordinate),
-      });
+    const feature = new Feature({
+      geometry: new Point(e.coordinate),
+    });
+
 
       feature.setStyle(
-        new Style({
-          image: new Icon({
-            src: "https://openlayers.org/en/latest/examples/data/dot.png",
-            scale: 0.9,
-          }),
-        })
-      );
+      new Style({
+        image: new Icon({
+          src: "https://openlayers.org/en/latest/examples/data/dot.png",
+          scale: 0.9,
+        }),
+      })
+    );
 
       vectorSource.addFeature(feature);
 

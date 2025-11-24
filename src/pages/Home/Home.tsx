@@ -1,5 +1,6 @@
 import { getUsers } from "@/api/api";
 import MapComponent from "@/components/custom/Map";
+import MapDot from "@/components/custom/MapDot";
 import Menu from "@/components/custom/Menu";
 import React, { useEffect, useState } from "react";
 

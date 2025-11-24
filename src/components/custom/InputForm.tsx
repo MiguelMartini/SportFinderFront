@@ -3,14 +3,15 @@ import { Input } from "../ui/input";
 interface inputFormProps {
   labelValue?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number;
   type?: string;
   error?: string;
   disabled?: boolean;
+  onBlur?: (value: string) => void;
   onChange: (value:string) => void
 }
 
-const InputForm = ({ labelValue, placeholder, value, type, error, onChange, disabled }: inputFormProps) => {
+const InputForm = ({ labelValue, placeholder, value, type, error, onChange, disabled, onBlur }: inputFormProps) => {
   return (
     <div>
       <label className="text-base md:text-lg font-medium">{labelValue}</label>
@@ -20,6 +21,7 @@ const InputForm = ({ labelValue, placeholder, value, type, error, onChange, disa
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={type}
+        onBlur={(e) => onBlur && onBlur(e.target.value)}
         disabled = {disabled}
       />
       {error && (
