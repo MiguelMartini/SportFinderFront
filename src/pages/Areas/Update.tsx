@@ -1,8 +1,8 @@
 import { editArea, getArea } from "@/api/api";
+import Btn from "@/components/custom/Btn";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
 import TextForm from "@/components/custom/TextForm";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ const Update = () => {
     titulo: "",
     descricao: "",
     rua: "",
-    numero: 0,
+    numero: "",
     bairro: "",
     cidade: "",
     estado: "",
@@ -44,7 +44,7 @@ const Update = () => {
     titulo: string;
     descricao?: string;
     rua: string;
-    numero?: number;
+    numero?: string;
     bairro: string;
     cidade: string;
     estado: string;
@@ -67,7 +67,7 @@ const Update = () => {
             cidade: endereco.cidade || "",
             estado: endereco.estado || "",
             cep: endereco.cep || "",
-            numero: endereco.numero || Number(null),
+            numero: endereco.numero || "",
             complemento: endereco.complemento || "",
           }))
           toast.success("Dados Carregados com sucesso!")
@@ -78,7 +78,7 @@ const Update = () => {
     fectchArea();
   }, []);
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: string) => {
     setForm(prev => ({
     ...prev,
     [field]: value
@@ -89,7 +89,12 @@ const Update = () => {
     setLoading(true);
     setErrors({});
     try {
-      const response = await editArea(form, id);
+
+      const payload = {
+      ...form,
+      numero: form.numero === "" ? null : Number(form.numero)
+    };
+      const response = await editArea(payload, id);
       toast.success(`${response.data.message}`);
       navigate("/home");
 
@@ -119,7 +124,7 @@ const Update = () => {
       <div className="flex justify-center flex-col items-center min-h-screen">
         <Menu />
         <div
-          className="flex flex-col justify-center bg-[#AAD3DF]/60 p-12 rounded-xl inset-shadow-sm shadow-xl/20"
+          className="flex flex-col justify-center my-20 bg-[#AAD3DF]/60 p-12 rounded-xl inset-shadow-sm shadow-xl/20"
         >
           <p className="text-3xl font-bold text-gray-800">
             Editar área esportiva : Id #{id}
@@ -211,8 +216,9 @@ const Update = () => {
                   labelValue={"Número"}
                   placeholder={"Digite o nº da área"}
                   value={form.numero}
+                  error={errors.numero}
                   type="number"
-                  onChange={(v) => handleChange("numero", v === "" ? "" : Number(v))}
+                  onChange={(v) => handleChange("numero", v)}
                   />
               </div>
                   </div>
@@ -227,25 +233,10 @@ const Update = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-col lg:flex-row justify-center mt-10 gap-3">
-            <Button
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
-              onClick={() => navigate("/areas/edit")}
-            >
-              Voltar
-            </Button>
-            <Button
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
-              onClick={() => navigate("/home")}
-            >
-              Cancelar
-            </Button>
-            <Button
-              onClick={(handleUpdate)}
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
-            >
-              {loading ? <Spinner /> : "Salvar"}
-            </Button>
+          <div className="flex flex-col items-center sm:flex-col lg:flex-row justify-center mt-10 gap-3">
+            <Btn value="Voltar2" onClick={() =>navigate("/areas/edit")}/>
+            <Btn value="Cancelar2" onClick={() =>navigate("/home")}/>
+            <Btn value={loading ? <Spinner /> : "Salvar2"} onClick={() => (handleUpdate())}/>
           </div>
         </div>
       </div>
