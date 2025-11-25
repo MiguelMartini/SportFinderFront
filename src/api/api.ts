@@ -83,7 +83,6 @@ export const editArea = (data: {
   cep: string;
   complemento: string;
 }, id:number) => {
-  // const userId = localStorage.getItem("user_id")
   return api.patch(`areas/edit/${id}`, data);
 };
 
@@ -93,6 +92,9 @@ export const getArea = (id:number) => {
 
 export const getAdminAreas = () => {
   return api.get(`areasadmin`);
+};
+export const getAreas = () => {
+  return api.get(`areas`);
 };
 
 export const logOut = () => {

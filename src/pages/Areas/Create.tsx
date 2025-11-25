@@ -101,8 +101,9 @@ const Create = () => {
           setErrors({});
         }, 5000);
 
-        toast.error("Verifique os campos");
-        setErrors(backendErrors);
+        // setErrors(backendErrors);
+        console.log(backendErrors)
+        toast.error(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
       }
