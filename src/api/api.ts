@@ -82,13 +82,16 @@ export const editArea = (data: {
   estado: string;
   cep: string;
   complemento: string;
-}) => {
-  const userId = localStorage.getItem("user_id")
-  return api.patch(`areas/edit/${userId}`, data);
+}, id:number) => {
+  // const userId = localStorage.getItem("user_id")
+  return api.patch(`areas/edit/${id}`, data);
+};
+
+export const getArea = (id:number) => {
+  return api.get(`/areas/${id}`);
 };
 
 export const getAdminAreas = () => {
-  const userId = localStorage.getItem("user_id")
   return api.get(`areasadmin`);
 };
 
