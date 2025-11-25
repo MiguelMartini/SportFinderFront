@@ -1,10 +1,9 @@
-import { createArea } from "@/api/api";
+import { editArea, getArea } from "@/api/api";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
 import TextForm from "@/components/custom/TextForm";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -24,7 +23,7 @@ interface FormState {
 const Update = () => {
 
   const { id } = useParams();
-  console.log(id)
+  const areaId = Number(id);
 
   const [form, setForm] = useState<FormState>({
     titulo: "",
@@ -53,13 +52,31 @@ const Update = () => {
     complemento?: string;
   }>({});
 
-//   useEffect(() => {
-//     const fectchArea = async () => {
-//         try{
-//             const response = await
-//         }
-//     }
-//   })
+  useEffect(() => {
+    const fectchArea = async () => {
+        try{
+          const response = await getArea(areaId)
+          const info = response.data.message
+          const endereco = response.data.message.endereco
+          setForm(prev => ({
+            ...prev,
+            titulo: info.titulo,
+            descricao: info.descricao,
+            rua: endereco.rua || "",
+            bairro: endereco.bairro || "",
+            cidade: endereco.cidade || "",
+            estado: endereco.estado || "",
+            cep: endereco.cep || "",
+            numero: endereco.numero || Number(null),
+            complemento: endereco.complemento || "",
+          }))
+          toast.success("Dados Carregados com sucesso!")
+        }catch(error: any){
+          console.log(error)
+        }
+    };
+    fectchArea();
+  }, []);
 
   const handleChange = (field: string, value: any) => {
     setForm(prev => ({
@@ -68,12 +85,11 @@ const Update = () => {
    }));
   };
 
-
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     setLoading(true);
     setErrors({});
     try {
-      const response = await createArea(form);
+      const response = await editArea(form, id);
       toast.success(`${response.data.message}`);
       navigate("/home");
 
@@ -225,7 +241,7 @@ const Update = () => {
               Cancelar
             </Button>
             <Button
-              onClick={(handleCreate)}
+              onClick={(handleUpdate)}
               className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
             >
               {loading ? <Spinner /> : "Salvar"}
