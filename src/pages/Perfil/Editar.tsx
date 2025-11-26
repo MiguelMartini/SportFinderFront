@@ -44,7 +44,6 @@ const Editar = () => {
     const fectchUser = async () => {
       try {
         const response = await getUser();
-        console.log(response.data);
         setUser(response.data.message);
         setName(response.data.message.name);
         setEmail(response.data.message.email);

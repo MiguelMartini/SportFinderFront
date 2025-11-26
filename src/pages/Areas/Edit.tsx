@@ -12,8 +12,6 @@ const Edit = () => {
     <div>
       <div className="flex justify-center flex-col items-center min-h-screen px-4">
         <Menu />
-        {/*  */}
-        
         <div className="w-full sm:w-full md:w-200 lg:w-[800px] flex flex-col justify-center bg-[#AAD3DF]/60 m-10 p-4 rounded-xl inset-shadow-sm shadow-xl/20 mt-25">
         <p className="p-4 flex justify-start font-bold text-2xl">Editar áreas esportivas</p>
         <div className="p-0.5 bg-gray-500 mt-4 rounded-4xl mb-4"></div>

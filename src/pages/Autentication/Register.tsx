@@ -3,16 +3,19 @@ import Copyrights from "@/components/custom/Copyrights";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
 import InputForm from "@/components/custom/inputForm";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPass, setConfirmedPass] = useState("");
   const [loading, setLoading] = useState(false);
+
+  
 
   const [errors, setErrors] = useState<{
     email?: string;
@@ -40,6 +43,7 @@ const Register = () => {
         password_confirmation: confirmedPass,
       });
       toast.success("Cadastro realizado com sucesso");
+      navigate('/login')
       setStates();
 
     } catch (error: any) {
