@@ -1,4 +1,5 @@
 import { editUser, getUser } from "@/api/api";
+import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 interface User {
+  id:number;
   name: string;
   email: string;
   documento: string;
@@ -17,38 +19,36 @@ interface User {
 
 const Editar = () => {
   const [user, setUser] = useState<User>({
+    id: 0,
     name: "",
     email: "",
     documento: "",
   });
 
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [documento, setDocumento] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPass, setConfirmedPass] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [admIn, setAdmIn] = useState(false);
 
   const [errors, setErrors] = useState<{
     email?: string;
     name?: string;
-    password: string;
-    confirmedPass: string;
-    documento: string;
+    password?: string;
+    confirmedPass?: string;
+    documento?: string;
   }>({});
 
   useEffect(() => {
     const fectchUser = async () => {
       try {
         const response = await getUser();
-        setUser(response.data.message);
-        setName(response.data.message.name);
-        setEmail(response.data.message.email);
-        setDocumento(response.data.message.documento);
-      
+        const data = response.data.message;
+        setUser(data)
+        setAdmIn(data.role === "admin");
+        console.log(data.role)
+        toast.success("Dados carregados com sucesso!")
       } catch (error: any) {
         console.log(error.data);
         toast.error("Erro ao buscar usuário");
@@ -59,6 +59,17 @@ const Editar = () => {
     fectchUser();
   }, []);
 
+  const handleDelete = async ()  => {
+    console.log("salve")
+  }
+
+   const handleChange = (field: string, value: string) => {
+    setUser(prev => ({
+    ...prev,
+    [field]: value
+   }));
+  };
+
   const handleSave = async () => {
     setLoading(true);
     setErrors({});
@@ -66,10 +77,10 @@ const Editar = () => {
       if (admIn) {
         console.log("Caiu aqui");
         const response = await editUser({
-          name,
-          email,
+          name: user.name,
+          email: user.email,
           role: "admin",
-          documento,
+          documento: user.documento,
           password,
           password_confirmation: confirmedPass,
         });
@@ -80,8 +91,8 @@ const Editar = () => {
       } else {
         console.log("Caiu aqui sem admin");
         const response = await editUser({
-          name,
-          email,
+          name: user.name,
+          email: user.email,
           role: "usuario",
           documento: "",
           password,
@@ -103,8 +114,8 @@ const Editar = () => {
           setErrors({});
         }, 5000);
 
-        toast.error("Verifique os campos");
         setErrors(backendErrors);
+        toast.error("Verifique os campos");
       } else {
         toast.error("Erro de conexão com o servidor.");
       }
@@ -130,8 +141,8 @@ const Editar = () => {
             <InputForm
               labelValue={"E-mail"}
               placeholder={"Digite seu endereço de e-mail"}
-              value={email}
-              onChange={setEmail}
+              value={user.email}
+              onChange={(v) => handleChange("email", v)}
               error={errors.email}
             />
           </div>
@@ -139,8 +150,8 @@ const Editar = () => {
             <InputForm
               labelValue={"Nome"}
               placeholder={"Digite seu endereço de e-mail"}
-              value={name}
-              onChange={setName}
+              value={user.name}
+              onChange={(v) => handleChange("name", v)}
               error={errors.name}
             />
           </div>
@@ -175,14 +186,14 @@ const Editar = () => {
               Cadastrar-se como Administrador
             </Label>
           </div>
-          {(admIn || documento) && (
+          {admIn && (
             <div className="flex flex-row items-start gap-4">
               <div className="w-1/2">
                 <InputForm
                   labelValue={"Documento"}
                   placeholder={"Documento CNPJ"}
-                  value={documento ?? ""}
-                  onChange={setDocumento}
+                  value={user.documento ?? ""}
+                  onChange={(v) => handleChange("documento", v)}
                   error={errors.documento}
                 />
               </div>
@@ -192,24 +203,26 @@ const Editar = () => {
                   placeholder={"Admin"}
                   value={"Admin"}
                   disabled={true}
+                  onChange={() => null}
                 />
               </div>
             </div>
           )}
 
-          <div className="flex flex-row justify-center mt-10 gap-3">
+          <div className="flex flex-col justify-center mt-10 gap-3 sm:flex-row">
             <Button
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+              onClick={handleSave}
+              className="order-1 active:scale-[.98] py-4 md:py-6 md:order-3 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
+            >
+              {loading ? <Spinner /> : "Salvar"}
+            </Button>
+            <Button
+              className="order-2 active:scale-[.98] py-4 md:py-6 md:order-1 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
               onClick={backMenu}
             >
               Cancelar
             </Button>
-            <Button
-              onClick={handleSave}
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
-            >
-              {loading ? <Spinner /> : "Salvar"}
-            </Button>
+            <DeleteBtn value={"Deletar"} style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl" onConfirm={() => handleDelete()}/>
           </div>
         </div>
       </div>

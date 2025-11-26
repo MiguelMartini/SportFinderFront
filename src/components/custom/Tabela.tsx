@@ -95,7 +95,7 @@ const Tabela = () => {
             >
               Editar
             </Button>
-            <DeleteBtn value={"Excluir"} onConfirm={() => handleDelete(area.id!, area.titulo)}/>
+            <DeleteBtn value={"Excluir"} onConfirm={() => handleDelete(area.id!, area.titulo)} style="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl"/>
           </div>
         </TableCell>
       </TableRow>

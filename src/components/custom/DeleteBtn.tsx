@@ -3,15 +3,16 @@ import { Button } from "../ui/button";
 
 interface BtnProps {
   value: React.ReactNode;
+  style: string;
   onConfirm?: () => void;
 }
 
-function DeleteBtn({ value, onConfirm }: BtnProps) {
+function DeleteBtn({ value, onConfirm, style }: BtnProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          className="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl"
+          className={style}
         >
           {value}
         </Button>
