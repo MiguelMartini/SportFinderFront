@@ -11,6 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [city, setCity] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPass, setConfirmedPass] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ const Register = () => {
   const [errors, setErrors] = useState<{
     email?: string;
     name?: string;
+    city?: string;
     password?: string;
     confirmedPass?: string;
   }>({});
@@ -27,6 +29,7 @@ const Register = () => {
   const setStates = () => {
       setEmail("");
       setName("");
+      setCity("");
       setPassword("");
       setConfirmedPass("");
   }
@@ -39,6 +42,7 @@ const Register = () => {
       const response = await registerUser({
         email,
         name,
+        city,
         password,
         password_confirmation: confirmedPass,
       });
@@ -98,6 +102,15 @@ const Register = () => {
               value={name}
               onChange={setName}
               error={errors.name}
+              />
+          </div>
+          <div className="mt-4">
+            <InputForm 
+              labelValue={"Cidade"} 
+              placeholder={"Digite sua cidade"}
+              value={city}
+              onChange={setCity}
+              error={errors.city}
               />
           </div>
 

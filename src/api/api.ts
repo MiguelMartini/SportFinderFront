@@ -37,6 +37,9 @@ export const loginUser = (data: {
 export const getUsers = () => {
   return api.get("/users");
 };
+export const getMyself = () => {
+  return api.get("/me");
+};
 
 export const getUser = () => {
   const userId = localStorage.getItem("user_id")
@@ -107,6 +110,7 @@ export const deleteArea = (id:number) => {
 };
 
 export const logOut = () => {
+  sessionStorage.removeItem("token")
   return api.post("/logout");
 };
 
