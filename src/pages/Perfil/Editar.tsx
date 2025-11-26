@@ -1,4 +1,4 @@
-import { editUser, getUser } from "@/api/api";
+import { deleteUser, editUser, getUser } from "@/api/api";
 import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -39,7 +40,6 @@ const Editar = () => {
     confirmedPass?: string;
     documento?: string;
   }>({});
-
   useEffect(() => {
     const fectchUser = async () => {
       try {
@@ -60,7 +60,10 @@ const Editar = () => {
   }, []);
 
   const handleDelete = async ()  => {
-    console.log("salve")
+    const response = await deleteUser(user.id)
+    toast.success(response.data.message);
+    sessionStorage.removeItem("token")
+    navigate("/login")
   }
 
    const handleChange = (field: string, value: string) => {
@@ -75,8 +78,7 @@ const Editar = () => {
     setErrors({});
     try {
       if (admIn) {
-        console.log("Caiu aqui");
-        const response = await editUser({
+        await editUser({
           name: user.name,
           email: user.email,
           role: "admin",
@@ -85,12 +87,10 @@ const Editar = () => {
           password_confirmation: confirmedPass,
         });
 
-        console.log(response);
         toast.success("Usuário atualizado com sucesso");
         navigate("/home");
       } else {
-        console.log("Caiu aqui sem admin");
-        const response = await editUser({
+        await editUser({
           name: user.name,
           email: user.email,
           role: "usuario",
@@ -98,7 +98,6 @@ const Editar = () => {
           password,
           password_confirmation: confirmedPass,
         });
-        console.log(response);
         toast.success("Usuário atualizado com sucesso");
         navigate("/home");
       }

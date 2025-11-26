@@ -43,6 +43,10 @@ export const getUser = () => {
   return api.get(`/users/${userId}`);
 };
 
+export const deleteUser = (id: number) => {
+  return api.delete(`users/${id}`);
+};
+
 export const editUser = (data: {
   email?: string;
   name?: string;
