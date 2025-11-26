@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import "ol/ol.css";
 
-// IMPORTS DO OPENLAYERS
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import TileLayer from "ol/layer/Tile.js";
@@ -18,12 +17,7 @@ import Icon from "ol/style/Icon.js";
 
 import { fromLonLat, toLonLat } from "ol/proj.js";
 import { getAreas } from "@/api/api";
-
-// Tipagem
-interface Coordenada {
-  lon: number;
-  lat: number;
-}
+import mapPin2 from "../../assets/mapPin2.svg";
 
 interface Area {
   lon: number;
@@ -34,7 +28,6 @@ export default function MapOL() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
   const [vectorSource] = useState(new VectorSource());
-  const [clickedCoord, setClickedCoord] = useState<Coordenada | null>(null);
 
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState(false);
@@ -81,29 +74,6 @@ export default function MapOL() {
       }),
     });
 
-    initialMap.on("click", (e) => {
-      const feature = new Feature({
-        geometry: new Point(e.coordinate),
-      });
-
-      feature.setStyle(
-        new Style({
-          image: new Icon({
-            src: "https://openlayers.org/en/latest/examples/data/dot.png",
-            scale: 1.0,
-          }),
-        })
-      );
-
-      vectorSource.addFeature(feature);
-
-      const [lon, lat] = toLonLat(e.coordinate);
-      setClickedCoord({ lon, lat });
-
-      // Também adiciona ao estado areas para manter tudo junto
-      setAreas((prev) => [...prev, { lon, lat }]);
-    });
-
     setMap(initialMap);
 
     return () => initialMap.setTarget(null);
@@ -124,7 +94,7 @@ export default function MapOL() {
       feature.setStyle(
         new Style({
           image: new Icon({
-            src: "https://openlayers.org/en/latest/examples/data/dot.png",
+            src: mapPin2,
             scale: 1.0,
           }),
         })
@@ -141,11 +111,6 @@ export default function MapOL() {
         ref={mapRef}
         style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
       />
-      {clickedCoord && (
-        <div style={{ position: "absolute", top: 10, left: 10, background: "#fff", padding: 5 }}>
-          Último clique: {clickedCoord.lat.toFixed(6)}, {clickedCoord.lon.toFixed(6)}
-        </div>
-      )}
     </div>
   );
 }

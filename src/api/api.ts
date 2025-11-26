@@ -66,6 +66,8 @@ export const createArea = (data: {
   estado: string;
   cep: string;
   complemento: string;
+  lat: number;
+  lon: number;
 }) => {
   const userId = localStorage.getItem("user_id")
   return api.post(`areas`, {...data, id_administrador:userId});
