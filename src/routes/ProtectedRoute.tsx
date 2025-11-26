@@ -1,22 +1,24 @@
-import { useEffect, useState, type JSX } from "react";
+import { type JSX } from "react";
 import { Navigate } from "react-router-dom";
-import api from "@/api/api";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
-export default function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+export default function ProtectedRoute({ children, role }: { children: JSX.Element, role?: string; }) {
 
-  useEffect(() => {
-    api.get("/areas")
-      .then(() => setAuthenticated(true))
-      .catch(() => setAuthenticated(false));
-  }, []);
+  const { user, loading } = useAuth();
 
-  if (authenticated === null) {
-    return <div>Carregando...</div>; // ou um spinner
+  if (loading) {
+    return <div>Carregando...</div>;
   }
 
-  if (!authenticated) {
+  if (!user) {
+    toast.warning("Você deve logar para realizar a operação")
     return <Navigate to="/login" replace />;
+  }
+
+  if (role && user.role !== role) {
+    toast.warning("Vire Admin para realizar a operação")
+    return <Navigate to="/home" replace />;
   }
 
   return children;

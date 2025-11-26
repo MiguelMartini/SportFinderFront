@@ -19,11 +19,12 @@ const router = createBrowserRouter([
   {path: "/", element: <App/>},
   {path: "/login", element: <Login/>},
   {path: "/register", element: <Register/>},
-  {path: "/home", element: <ProtectedRoute><Home/></ProtectedRoute>},
-  {path: "/perfil/editar", element: <ProtectedRoute><Editar/></ProtectedRoute>},
-  {path: "/areas/update/:id", element: <ProtectedRoute><Update/></ProtectedRoute>},{path: "/areas/edit", element: <ProtectedRoute><Edit/></ProtectedRoute>},
-  {path: "/areas/create", element: <ProtectedRoute><Create/></ProtectedRoute>},
-   {path: "/areas/store", element: <ProtectedRoute><Store/></ProtectedRoute>},
+  {path: "/home", element: <ProtectedRoute role='usuario'><Home/></ProtectedRoute>},
+  {path: "/perfil/editar", element: <ProtectedRoute role='usuario'><Editar/></ProtectedRoute>},
+  {path: "/areas/update/:id", element: <ProtectedRoute role='admin'><Update/></ProtectedRoute>},
+  {path: "/areas/edit", element: <ProtectedRoute role='admin'><Edit/></ProtectedRoute>},
+  {path: "/areas/create", element: <ProtectedRoute role='admin'><Create/></ProtectedRoute>},
+  {path: "/areas/store", element: <ProtectedRoute role='admin'><Store/></ProtectedRoute>},
 ])
 
 createRoot(document.getElementById('root')!).render(

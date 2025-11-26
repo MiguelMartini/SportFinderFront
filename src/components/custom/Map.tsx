@@ -44,7 +44,6 @@ export default function MapOL() {
         }));
 
         setAreas(novasAreas);
-        console.log("Áreas carregadas:", novasAreas);
       } catch (error: any) {
         console.log(error);
       } finally {

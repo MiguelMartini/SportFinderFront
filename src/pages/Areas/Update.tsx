@@ -4,6 +4,7 @@ import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
 import TextForm from "@/components/custom/TextForm";
 import { Spinner } from "@/components/ui/spinner";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -84,6 +85,29 @@ const Update = () => {
     [field]: value
    }));
   };
+  const consultaCep = async (cep:string)  =>{
+    try{
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = response.data;
+      if(data.erro){
+        toast.error("CEP não encontrado")
+        return;
+      }
+
+      setForm(prev => ({
+        ...prev,
+        rua: data.logradouro || "",
+        bairro: data.bairro || "",
+        cidade: data.localidade || "",
+        estado: data.uf || "",
+        complemento: data.complemento || "",
+      }));
+
+      toast.success("Endereço atualizado!")
+    }catch(error){
+      toast.error("Erro ao buscar CEP")
+    }
+  }
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -234,9 +258,9 @@ const Update = () => {
             </div>
           </div>
           <div className="flex flex-col items-center sm:flex-col lg:flex-row justify-center mt-10 gap-3">
-            <Btn value="Voltar2" onClick={() =>navigate("/areas/edit")}/>
-            <Btn value="Cancelar2" onClick={() =>navigate("/home")}/>
-            <Btn value={loading ? <Spinner /> : "Salvar2"} onClick={() => (handleUpdate())}/>
+            <Btn value="Voltar" onClick={() =>navigate("/areas/edit")}/>
+            <Btn value="Cancelar" onClick={() =>navigate("/home")}/>
+            <Btn value={loading ? <Spinner /> : "Salvar"} onClick={() => (handleUpdate())}/>
           </div>
         </div>
       </div>
