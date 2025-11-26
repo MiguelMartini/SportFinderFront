@@ -1,4 +1,5 @@
 import { editUser, getUser } from "@/api/api";
+import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
 import { Button } from "@/components/ui/button";
@@ -58,6 +59,10 @@ const Editar = () => {
      
     fectchUser();
   }, []);
+
+  const handleDelete = async ()  => {
+    console.log("salve")
+  }
 
   const handleSave = async () => {
     setLoading(true);
@@ -200,17 +205,17 @@ const Editar = () => {
           <div className="flex flex-col justify-center mt-10 gap-3 sm:flex-row">
             <Button
               onClick={handleSave}
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+              className="order-1 active:scale-[.98] py-4 md:py-6 md:order-3 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
             >
               {loading ? <Spinner /> : "Salvar"}
             </Button>
             <Button
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+              className="order-2 active:scale-[.98] py-4 md:py-6 md:order-1 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
               onClick={backMenu}
             >
               Cancelar
             </Button>
-            
+            <DeleteBtn value={"Deletar"} style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl" onConfirm={() => handleDelete()}/>
           </div>
         </div>
       </div>
