@@ -40,7 +40,25 @@ export function ModalArea({
         </DialogHeader>
 
         <div className="grid gap-2">
-          <div className="grid gap-3">
+          <div className="mt-4">
+                <InputForm
+                    labelValue="Título"
+                    placeholder="Digite o título da área"
+                    value={form.titulo}
+                    onChange={(v) => handleChange("titulo", v)}
+                    //   error={errors.cep}
+                    />
+              </div>
+              <div className="mt-4">
+                <InputForm
+                    labelValue="Descrição"
+                    placeholder="Digite a descrição da área"
+                    value={form.descricao}
+                    onChange={(v) => handleChange("descricao", v)}
+                    //   error={errors.cep}
+                    />
+              </div>
+          {/* <div className="grid gap-3">
             <Label>Título</Label>
             <Input
               value={form.titulo}
@@ -54,9 +72,9 @@ export function ModalArea({
               value={form.descricao}
               onChange={(e) => handleChange("descricao", e.target.value)}
             />
-          </div>
+          </div> */}
 
-           <div className= "lg:w-1/2 sm: w-full">
+           <div className= "sm: w-full">
               <p className="text-xl font-semibold text-gray-700 mt-5">Endereço</p>
               <div className="mt-4">
                 <InputForm

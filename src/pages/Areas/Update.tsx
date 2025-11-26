@@ -257,7 +257,7 @@ const Update = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center sm:flex-col lg:flex-row justify-center mt-10 gap-3">
+          <div className="flex flex-col items-stretch sm:flex-col lg:flex-row justify-center mt-10 gap-3">
             <Btn value="Voltar" onClick={() =>navigate("/areas/edit")}/>
             <Btn value="Cancelar" onClick={() =>navigate("/home")}/>
             <Btn value={loading ? <Spinner /> : "Salvar"} onClick={() => (handleUpdate())}/>

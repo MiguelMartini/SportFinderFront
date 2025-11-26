@@ -74,7 +74,6 @@ function MapStore() {
     cep: string;
     complemento?: string;
   }>({});
-  console.log(form.cep);
 
   const handleChange = (field: string, value: any) => {
     setForm((prev) => ({
