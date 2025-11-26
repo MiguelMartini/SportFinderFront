@@ -1,7 +1,6 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import "ol/ol.css";
 
-// IMPORTS DO OPENLAYERS (versões mais novas precisam .js no final)
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import TileLayer from "ol/layer/Tile.js";
@@ -17,9 +16,10 @@ import Style from "ol/style/Style.js";
 import Icon from "ol/style/Icon.js";
 
 import { fromLonLat, toLonLat } from "ol/proj.js";
+import { getAreas } from "@/api/api";
+import mapPin2 from "../../assets/mapPin2.svg";
 
-// Tipagem do estado das coordenadas clicadas
-interface Coordenada {
+interface Area {
   lon: number;
   lat: number;
 }
@@ -28,16 +28,32 @@ export default function MapOL() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
   const [vectorSource] = useState(new VectorSource());
-  const [clickedCoord, setClickedCoord] = useState<Coordenada | null>(null);
 
-  let subtitle = useRef<HTMLHeadingElement | null>(null);
+  const [areas, setAreas] = useState<Area[]>([]);
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    async function carregar() {
+      try {
+        setLoading(true);
+        const response = await getAreas();
 
-  const mapDots = [
-  { lon: -50.3205, lat: -27.8102 },
-  { lon: -50.3212, lat: -27.8130 },
-  { lon: -50.3189, lat: -27.8095 },
-];
+        const novasAreas: Area[] = response.data.message.map((area: any) => ({
+          lat: area.endereco.lat,
+          lon: area.endereco.lon,
+        }));
+
+        setAreas(novasAreas);
+        console.log("Áreas carregadas:", novasAreas);
+      } catch (error: any) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregar();
+  }, []);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -53,50 +69,9 @@ export default function MapOL() {
         }),
       ],
       view: new View({
-        center: fromLonLat([-50.32, -27.81]), 
+        center: fromLonLat([-50.32, -27.81]),
         zoom: 15,
       }),
-    });
-
-     mapDots.forEach((dot) => {
-    const feature = new Feature({
-      geometry: new Point(fromLonLat([dot.lon, dot.lat])),
-    });
-
-    feature.setStyle(
-      new Style({
-        image: new Icon({
-          src: "https://openlayers.org/en/latest/examples/data/dot.png",
-          scale: 1.0,
-        }),
-      })
-    );
-
-    vectorSource.addFeature(feature);
-  });
-
-    // Evento de clique no mapa
-    initialMap.on("click", (e) => {
-    const feature = new Feature({
-      geometry: new Point(e.coordinate),
-    });
-
-
-      feature.setStyle(
-      new Style({
-        image: new Icon({
-          src: "https://openlayers.org/en/latest/examples/data/dot.png",
-          scale: 0.9,
-        }),
-      })
-    );
-
-      vectorSource.addFeature(feature);
-
-      // Converte coordenada
-      const [lon, lat] = toLonLat(e.coordinate);
-      setClickedCoord({ lon, lat });
-
     });
 
     setMap(initialMap);
@@ -104,9 +79,35 @@ export default function MapOL() {
     return () => initialMap.setTarget(null);
   }, [vectorSource]);
 
+  // Adiciona os pontos do backend ao vectorSource
+  useEffect(() => {
+    if (!map || areas.length === 0) return;
+
+    // Limpa todos os pontos para evitar duplicados
+    vectorSource.clear();
+
+    areas.forEach((area) => {
+      const feature = new Feature({
+        geometry: new Point(fromLonLat([area.lon, area.lat])),
+      });
+
+      feature.setStyle(
+        new Style({
+          image: new Icon({
+            src: mapPin2,
+            scale: 1.0,
+          }),
+        })
+      );
+
+      vectorSource.addFeature(feature);
+    });
+  }, [areas, map, vectorSource]);
+
   return (
     <div>
-      <div className="rounded-full"
+      {loading && <p>Carregando áreas...</p>}
+      <div
         ref={mapRef}
         style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
       />
