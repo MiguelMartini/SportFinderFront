@@ -10,9 +10,10 @@ import {
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAdminAreas } from "@/api/api";
+import { deleteArea, getAdminAreas } from "@/api/api";
 import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
+import DeleteBtn from "./DeleteBtn";
 
 interface Area {
   id?: number;
@@ -25,10 +26,22 @@ const Tabela = () => {
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const handleDelete = async (id:number, area:string) => {
+    setLoading(true);
+    try{
+      await deleteArea(id);
+      setAreas((prev) => prev.filter((a) => a.id !== id));
+      toast.success(`Área esporitva: ${area} apagada com sucesso:  `)
+    }catch(error: any){
+      console.log(error)
+       toast.error("Erro ao apagar");
+    }
+    setLoading(false);
+  }
+
   useEffect(() => {
       async function carregar() {
         try{
-
             setLoading(true)
             const response = await getAdminAreas();
             setAreas(response.data.message);
@@ -75,13 +88,14 @@ const Tabela = () => {
           {area.descricao}
         </TableCell>
         <TableCell className="text-right flex justify-center">
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
             <Button
               className="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
               onClick={() => navigate(`/areas/update/${area.id}`)}
             >
               Editar
             </Button>
+            <DeleteBtn value={"Excluir"} onConfirm={() => handleDelete(area.id!, area.titulo)}/>
           </div>
         </TableCell>
       </TableRow>

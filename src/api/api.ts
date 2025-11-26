@@ -98,6 +98,9 @@ export const getAdminAreas = () => {
 export const getAreas = () => {
   return api.get(`areas`);
 };
+export const deleteArea = (id:number) => {
+  return api.delete(`/areas/${id}`);
+};
 
 export const logOut = () => {
   return api.post("/logout");
