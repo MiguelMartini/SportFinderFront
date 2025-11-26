@@ -197,19 +197,20 @@ const Editar = () => {
             </div>
           )}
 
-          <div className="flex flex-row justify-center mt-10 gap-3">
+          <div className="flex flex-col justify-center mt-10 gap-3 sm:flex-row">
+            <Button
+              onClick={handleSave}
+              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+            >
+              {loading ? <Spinner /> : "Salvar"}
+            </Button>
             <Button
               className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
               onClick={backMenu}
             >
               Cancelar
             </Button>
-            <Button
-              onClick={handleSave}
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
-            >
-              {loading ? <Spinner /> : "Salvar"}
-            </Button>
+            
           </div>
         </div>
       </div>
