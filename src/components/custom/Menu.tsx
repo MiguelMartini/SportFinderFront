@@ -26,12 +26,6 @@ const Menu = () => {
       navigate("/login");
     }
   };
-  const editarProfile = () => {
-    navigate("/perfil/editar")
-  }
-  const createArea = () => {
-    navigate("/areas/create")
-  }
 
   return (
     <div>
@@ -74,16 +68,13 @@ const Menu = () => {
                 Áreas Esportivas
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem onClick={createArea}>Criar</MenubarItem>
+                <MenubarItem className="cursor-pointer" onClick={() => navigate("/home")}>Consultar</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem onClick={() => navigate("/home")}>Consultar</MenubarItem>
+                <MenubarItem className="cursor-pointer" onClick={() => navigate("/areas/store")}>Criar</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem onClick={() => navigate("/areas/edit")}>Editar</MenubarItem>
-                <MenubarItem onClick={() => navigate("/areas/store")}>Store</MenubarItem>
+                <MenubarItem className="cursor-pointer" onClick={() => navigate("/areas/edit")}>Editar</MenubarItem>
               </MenubarContent>
-              
             </MenubarMenu>
-
             <MenubarMenu>
               <MenubarTrigger className="flex items-center cursor-pointer gap-2 sm:gap-3">
                 <p className="font-medium text-sm sm:text-lg">Perfil</p>
@@ -93,9 +84,9 @@ const Menu = () => {
                 </div>
               </MenubarTrigger>
               <MenubarContent>
-                <MenubarItem inset onClick={editarProfile} className="cursor-pointer">Editar</MenubarItem>
+                <MenubarItem inset onClick={() => navigate("/perfil/editar")} className="cursor-pointer">Editar</MenubarItem>
                 <MenubarSeparator />
-                <MenubarItem inset onClick={handleLogout}>
+                <MenubarItem inset onClick={handleLogout} className="cursor-pointer">
                   Sair
                 </MenubarItem>
               </MenubarContent>
