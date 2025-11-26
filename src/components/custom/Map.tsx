@@ -15,8 +15,8 @@ import Point from "ol/geom/Point.js";
 import Style from "ol/style/Style.js";
 import Icon from "ol/style/Icon.js";
 
-import { fromLonLat, toLonLat } from "ol/proj.js";
-import { getAreas } from "@/api/api";
+import { fromLonLat } from "ol/proj.js";
+import { getAreas, getMyself } from "@/api/api";
 import mapPin2 from "../../assets/mapPin2.svg";
 
 interface Area {
@@ -28,9 +28,29 @@ export default function MapOL() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
   const [vectorSource] = useState(new VectorSource());
+  const [userCity, setUserCity] = useState<Area[]>([]);
 
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    async function localicaoUser(){
+      try{
+        const response = await getMyself();
+        const dados = response.data.user
+        const userLoc: Area = {
+          lat: Number(dados.lat),
+          lon: Number(dados.lon),
+        };
+
+        setUserCity([userLoc])
+      }catch(error: any){
+        console.log(error)
+      }
+    }
+    localicaoUser();
+  }, []);
 
   useEffect(() => {
     async function carregar() {
@@ -55,7 +75,8 @@ export default function MapOL() {
   }, []);
 
   useEffect(() => {
-    if (!mapRef.current) return;
+      if (!mapRef.current) return;
+      if (userCity.length === 0) return; 
 
     const initialMap = new Map({
       target: mapRef.current,
@@ -68,7 +89,7 @@ export default function MapOL() {
         }),
       ],
       view: new View({
-        center: fromLonLat([-50.32, -27.81]),
+        center: fromLonLat([userCity[0].lon, userCity[0].lat]),
         zoom: 15,
       }),
     });
@@ -76,7 +97,7 @@ export default function MapOL() {
     setMap(initialMap);
 
     return () => initialMap.setTarget(null);
-  }, [vectorSource]);
+  }, [vectorSource, userCity]);
 
   // Adiciona os pontos do backend ao vectorSource
   useEffect(() => {

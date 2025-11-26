@@ -17,7 +17,7 @@ import Style from "ol/style/Style.js";
 import Icon from "ol/style/Icon.js";
 
 import { fromLonLat, toLonLat } from "ol/proj.js";
-import { createArea, getAreas } from "@/api/api";
+import { createArea, getMyself } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ModalArea } from "./ModalArea";
@@ -37,6 +37,11 @@ interface FormState {
   lon: number;
 }
 
+interface Area{
+  lon: number;
+  lat: number;
+}
+
 function MapStore() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
@@ -46,6 +51,7 @@ function MapStore() {
   const [openModal, setOpenModal] = useState(false);
 
   const [areas, setAreas] = useState<Area[]>([]);
+  const [userCity, setUserCity] = useState<Area[]>([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -136,7 +142,26 @@ function MapStore() {
   };
 
   useEffect(() => {
+      async function localicaoUser(){
+        try{
+          const response = await getMyself();
+          const dados = response.data.user
+          const userLoc: Area = {
+            lat: Number(dados.lat),
+            lon: Number(dados.lon),
+          };
+  
+          setUserCity([userLoc])
+        }catch(error: any){
+          console.log(error)
+        }
+      }
+      localicaoUser();
+    }, []);
+
+  useEffect(() => {
     if (!mapRef.current) return;
+    if (userCity.length === 0) return; 
 
     const initialMap = new Map({
       target: mapRef.current,
@@ -149,7 +174,7 @@ function MapStore() {
         }),
       ],
       view: new View({
-        center: fromLonLat([-50.32, -27.81]),
+        center: fromLonLat([userCity[0].lon, userCity[0].lat]),
         zoom: 15,
       }),
     });
@@ -173,7 +198,7 @@ function MapStore() {
     setMap(initialMap);
 
     return () => initialMap.setTarget(null);
-  }, [vectorSource]);
+  }, [vectorSource, userCity]);
 
   // Adiciona os pontos do backend ao vectorSource
   useEffect(() => {
