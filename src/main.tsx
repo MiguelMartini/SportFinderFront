@@ -13,6 +13,7 @@ import Create from './pages/Areas/Create.tsx'
 import ProtectedRoute from './routes/ProtectedRoute.tsx'
 import Update from './pages/Areas/Update.tsx'
 import Edit from './pages/Areas/Edit.tsx'
+import Store from './pages/Areas/Store.tsx'
 
 const router = createBrowserRouter([
   {path: "/", element: <App/>},
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
   {path: "/perfil/editar", element: <ProtectedRoute><Editar/></ProtectedRoute>},
   {path: "/areas/update/:id", element: <ProtectedRoute><Update/></ProtectedRoute>},{path: "/areas/edit", element: <ProtectedRoute><Edit/></ProtectedRoute>},
   {path: "/areas/create", element: <ProtectedRoute><Create/></ProtectedRoute>},
+   {path: "/areas/store", element: <ProtectedRoute><Store/></ProtectedRoute>},
 ])
 
 createRoot(document.getElementById('root')!).render(

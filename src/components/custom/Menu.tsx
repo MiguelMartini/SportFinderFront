@@ -79,6 +79,7 @@ const Menu = () => {
                 <MenubarItem onClick={() => navigate("/home")}>Consultar</MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem onClick={() => navigate("/areas/edit")}>Editar</MenubarItem>
+                <MenubarItem onClick={() => navigate("/areas/store")}>Store</MenubarItem>
               </MenubarContent>
               
             </MenubarMenu>
