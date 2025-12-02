@@ -1,6 +1,5 @@
 import MapStore from '@/components/custom/MapStore'
-import Menu from '@/components/custom/Menu'
-import React from 'react'
+import Navbar from '@/components/custom/Navbar'
 
 type Props = {}
 
@@ -8,8 +7,8 @@ const Store = (props: Props) => {
   return (
     <div>
         <div>
-            <Menu/>
-            <div className='w-full h-screen flex justify-center items-center flex-col mt-6'>
+            <Navbar/>
+            <div className='w-full flex justify-center items-center flex-col mt-10'>
                 <div>
                     <p className='p-4 flex justify-start font-bold text-2xl'>Cadastrar Área Esportiva</p>
                 </div>

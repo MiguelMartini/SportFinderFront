@@ -1,6 +1,7 @@
 import { createArea } from "@/api/api";
 import InputForm from "@/components/custom/inputForm";
 import Menu from "@/components/custom/Menu";
+import Navbar from "@/components/custom/Navbar";
 import TextForm from "@/components/custom/TextForm";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -117,7 +118,8 @@ const Create = () => {
   return (
     <div>
       <div className="flex justify-center flex-col items-center min-h-screen">
-        <Menu />
+        {/* <Navbar/> */}
+        {/* <Menu /> */}
         <div
           className="flex flex-col justify-center bg-[#AAD3DF]/60 p-12 rounded-xl inset-shadow-sm shadow-xl/20"
         >

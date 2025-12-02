@@ -1,18 +1,17 @@
 import { deleteUser, editUser, getUser } from "@/api/api";
 import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
-import Menu from "@/components/custom/Menu";
+import Navbar from "@/components/custom/Navbar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 interface User {
-  id:number;
+  id: number;
   name: string;
   email: string;
   documento: string;
@@ -45,32 +44,31 @@ const Editar = () => {
       try {
         const response = await getUser();
         const data = response.data.message;
-        setUser(data)
+        setUser(data);
         setAdmIn(data.role === "admin");
-        console.log(data.role)
-        toast.success("Dados carregados com sucesso!")
+        console.log(data.role);
+        toast.success("Dados carregados com sucesso!");
       } catch (error: any) {
         console.log(error.data);
         toast.error("Erro ao buscar usuário");
       }
-      
     };
-     
+
     fectchUser();
   }, []);
 
-  const handleDelete = async ()  => {
-    const response = await deleteUser(user.id)
+  const handleDelete = async () => {
+    const response = await deleteUser(user.id);
     toast.success(response.data.message);
-    sessionStorage.removeItem("token")
-    navigate("/login")
-  }
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  };
 
-   const handleChange = (field: string, value: string) => {
-    setUser(prev => ({
-    ...prev,
-    [field]: value
-   }));
+  const handleChange = (field: string, value: string) => {
+    setUser((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const handleSave = async () => {
@@ -126,12 +124,9 @@ const Editar = () => {
   };
   return (
     <div>
-      <div className="flex justify-center flex-col items-center h-screen">
-        <Menu />
-        <div
-          className="flex flex-col justify-center bg-[#AAD3DF]/60 p-12 rounded-xl inset-shadow-sm
-    shadow-xl/20 "
-        >
+      <Navbar />
+      <div className="flex flex-col justify-center items-center mt-10 mb-10">
+        <div className="flex flex-col justify-center bg-[#AAD3DF]/60 p-10 rounded-xl inset-shadow-sm shadow-xl/20 ">
           <p className="flex justify-start font-bold text-2xl">
             Configurações de perfil
           </p>
@@ -221,7 +216,11 @@ const Editar = () => {
             >
               Cancelar
             </Button>
-            <DeleteBtn value={"Deletar"} style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl" onConfirm={() => handleDelete()}/>
+            <DeleteBtn
+              value={"Deletar"}
+              style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl"
+              onConfirm={() => handleDelete()}
+            />
           </div>
         </div>
       </div>

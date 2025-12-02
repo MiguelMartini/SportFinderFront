@@ -12,6 +12,17 @@ const Navbar = (props: Props) => {
   const [openPerfil, setOpenPerfil] = useState(false);
   const navigate = useNavigate();
 
+  const dropMenu  = (menu: "perfil" | "areas") => { 
+    if(menu === "areas"){
+      setOpenAreas(!openAreas);
+      setOpenPerfil(false)
+    }
+    if(menu === "perfil"){
+      setOpenPerfil(!openPerfil)
+      setOpenAreas(false);
+    }
+  }
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -35,7 +46,7 @@ const Navbar = (props: Props) => {
           <div className="flex flex-row gap-5 relative">
             <div className="relative">
               <button
-                onClick={() => setOpenAreas(!openAreas)}
+                onClick={() => dropMenu("areas")}
                 className="font-medium hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
               >
                 Áreas Esportivas
@@ -56,7 +67,7 @@ const Navbar = (props: Props) => {
             {/* <p>Áreas Esportivas</p> */}
             <div className="relative">
               <button
-                onClick={() => setOpenPerfil(!openPerfil)}
+                onClick={() => dropMenu("perfil")}
                 className="flex flex-row gap-2 items-center font-medium hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
               >
                 <p>Perfil</p>
