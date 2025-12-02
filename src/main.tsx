@@ -9,7 +9,6 @@ import { Toaster } from 'sonner'
 import { AuthProvider } from './context/AuthContext.tsx'
 import Home from './pages/Home/Home.tsx'
 import Editar from './pages/Perfil/Editar.tsx'
-import Create from './pages/Areas/Create.tsx'
 import ProtectedRoute from './routes/ProtectedRoute.tsx'
 import Update from './pages/Areas/Update.tsx'
 import Edit from './pages/Areas/Edit.tsx'
@@ -23,7 +22,6 @@ const router = createBrowserRouter([
   {path: "/perfil/editar", element: <ProtectedRoute><Editar/></ProtectedRoute>},
   {path: "/areas/update/:id", element: <ProtectedRoute role='admin'><Update/></ProtectedRoute>},
   {path: "/areas/edit", element: <ProtectedRoute role='admin'><Edit/></ProtectedRoute>},
-  {path: "/areas/create", element: <ProtectedRoute role='admin'><Create/></ProtectedRoute>},
   {path: "/areas/store", element: <ProtectedRoute role='admin'><Store/></ProtectedRoute>},
 ])
 
