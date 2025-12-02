@@ -16,10 +16,11 @@ import Style from "ol/style/Style.js";
 import Icon from "ol/style/Icon.js";
 
 import { fromLonLat } from "ol/proj.js";
-import { getAreas, getMyself } from "@/api/api";
+import { getArea, getAreas, getMyself } from "@/api/api";
 import mapPin2 from "../../assets/mapPin2.svg";
 
 interface Area {
+  id?:number;
   lon: number;
   lat: number;
 }
@@ -32,6 +33,8 @@ export default function MapOL() {
 
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState(false);
+
+  console.log(areas)
 
 
   useEffect(() => {
@@ -58,7 +61,9 @@ export default function MapOL() {
         setLoading(true);
         const response = await getAreas();
 
+
         const novasAreas: Area[] = response.data.message.map((area: any) => ({
+          id:area.id,
           lat: area.endereco.lat,
           lon: area.endereco.lon,
         }));
@@ -109,6 +114,7 @@ export default function MapOL() {
     areas.forEach((area) => {
       const feature = new Feature({
         geometry: new Point(fromLonLat([area.lon, area.lat])),
+        id:area.id
       });
 
       feature.setStyle(
@@ -123,6 +129,28 @@ export default function MapOL() {
       vectorSource.addFeature(feature);
     });
   }, [areas, map, vectorSource]);
+
+  useEffect(() => {
+  if (!map) return;
+
+  map.on("singleclick", async (event) => {
+    map.forEachFeatureAtPixel(event.pixel, async (feature) => {
+      const id = feature.get("id");
+      if (!id) return;
+
+      console.log("ID da área clicada:", id);
+
+      try {
+        const response = await getArea(id);
+        console.log("Dados completos da área:", response.data);
+      } catch (error) {
+        console.error("Erro ao buscar área:", error);
+      }
+    });
+  });
+
+  return () => map.un("singleclick", () => {});
+}, [map]);
 
   return (
     <div>
