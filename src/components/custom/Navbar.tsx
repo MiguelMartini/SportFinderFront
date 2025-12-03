@@ -36,29 +36,29 @@ const Navbar = (props: Props) => {
   };
   return (
     <div>
-      <header className="bg-[#AAD3DF]/60 shadow-xl/15 ">
+      <header className="bg-[#AAD3DF] shadow-xl/15 ">
         <div className="flex justify-between px-3 py-5 sm:px-4 relative lg:px-50">
           <div className="flex flex-row gap-2 p-2">
             <Earth />
-            <p className="font-bold text-base sm:text-lg">Sportifinder</p>
+            <p className="font-semibold text-lg text-gray-800 sm:text-lg">Sportifinder</p>
           </div>
 
           <div className="flex flex-row gap-5 relative">
             <div className="relative">
               <button
                 onClick={() => dropMenu("areas")}
-                className="font-medium hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
+                className="font-semibold text-gray-800 hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
               >
                 Áreas Esportivas
               </button>
 
               {openAreas && (
                 <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg p-2 z-10">
-                  <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => navigate("/home")}>
+                  <p className="p-2 text-gray-800 hover:bg-[#E3F1F4] rounded-xl cursor-pointer" onClick={() => navigate("/home")}>
                     Consultar
                   </p>
-                  <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => navigate("/areas/store")}>Criar</p>
-                  <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => navigate("/areas/edit")}>
+                  <p className="p-2 text-gray-800 hover:bg-[#E3F1F4] rounded-xl cursor-pointer" onClick={() => navigate("/areas/store")}>Criar</p>
+                  <p className="p-2 text-gray-800 hover:bg-[#E3F1F4] rounded-xl cursor-pointer" onClick={() => navigate("/areas/edit")}>
                     Editar
                   </p>
                 </div>
@@ -68,7 +68,7 @@ const Navbar = (props: Props) => {
             <div className="relative">
               <button
                 onClick={() => dropMenu("perfil")}
-                className="flex flex-row gap-2 items-center font-medium hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
+                className="flex flex-row gap-2 items-center font-semibold text-gray-800 hover:bg-gray-100 rounded-2xl p-2 cursor-pointer"
               >
                 <p>Perfil</p>
                 <CircleUser />
@@ -76,10 +76,10 @@ const Navbar = (props: Props) => {
 
               {openPerfil && (
                 <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg p-2 z-10">
-                  <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={() => navigate("/perfil/editar")}>
+                  <p className="p-2 text-gray-800 hover:bg-[#E3F1F4] rounded-xl cursor-pointer" onClick={() => navigate("/perfil/editar")}>
                     Editar
                   </p>
-                  <p className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>Sair</p>
+                  <p className="p-2 text-gray-800 hover:bg-[#E3F1F4] rounded-xl cursor-pointer" onClick={handleLogout}>Sair</p>
                 </div>
               )}
             </div>

@@ -136,8 +136,8 @@ const Editar = () => {
     <div>
       <Navbar />
       <div className="flex flex-col justify-center items-center mt-10 mb-10">
-        <div className="flex flex-col justify-center bg-[#AAD3DF]/60 p-10 rounded-xl inset-shadow-sm shadow-xl/20 ">
-          <p className="flex justify-start font-bold text-2xl">
+        <div className="flex flex-col justify-center bg-[#AAD3DF] p-10 rounded-xl inset-shadow-sm shadow-md border border-[#E3F1F4]">
+          <p className="flex justify-start font-bold text-2xl text-gray-700">
             Configurações de perfil
           </p>
           <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
