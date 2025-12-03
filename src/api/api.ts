@@ -55,6 +55,7 @@ export const editUser = (data: {
   name?: string;
   documento?: string;
   phone?: string;
+  instagram?: string;
   role?: string;
   password: string;
   password_confirmation: string;
