@@ -16,10 +16,12 @@ import Style from "ol/style/Style.js";
 import Icon from "ol/style/Icon.js";
 
 import { fromLonLat } from "ol/proj.js";
-import { getAreas, getMyself } from "@/api/api";
+import { getArea, getAreas, getMyself } from "@/api/api";
 import mapPin2 from "../../assets/mapPin2.svg";
+import AreaSheet from "./AreaSheet";
 
 interface Area {
+  id?: number;
   lon: number;
   lat: number;
 }
@@ -33,20 +35,22 @@ export default function MapOL() {
   const [areas, setAreas] = useState<Area[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [selectedAreaId, setSelectedAreaId] = useState<number | null>(null);
+  const [openSheet, setOpenSheet] = useState(false);
 
   useEffect(() => {
-    async function localicaoUser(){
-      try{
+    async function localicaoUser() {
+      try {
         const response = await getMyself();
-        const dados = response.data.user
+        const dados = response.data.user;
         const userLoc: Area = {
           lat: Number(dados.lat),
           lon: Number(dados.lon),
         };
 
-        setUserCity([userLoc])
-      }catch(error: any){
-        console.log(error)
+        setUserCity([userLoc]);
+      } catch (error: any) {
+        console.log(error);
       }
     }
     localicaoUser();
@@ -59,6 +63,7 @@ export default function MapOL() {
         const response = await getAreas();
 
         const novasAreas: Area[] = response.data.message.map((area: any) => ({
+          id: area.id,
           lat: area.endereco.lat,
           lon: area.endereco.lon,
         }));
@@ -75,8 +80,8 @@ export default function MapOL() {
   }, []);
 
   useEffect(() => {
-      if (!mapRef.current) return;
-      if (userCity.length === 0) return; 
+    if (!mapRef.current) return;
+    if (userCity.length === 0) return;
 
     const initialMap = new Map({
       target: mapRef.current,
@@ -109,6 +114,7 @@ export default function MapOL() {
     areas.forEach((area) => {
       const feature = new Feature({
         geometry: new Point(fromLonLat([area.lon, area.lat])),
+        id: area.id,
       });
 
       feature.setStyle(
@@ -124,8 +130,55 @@ export default function MapOL() {
     });
   }, [areas, map, vectorSource]);
 
+  useEffect(() => {
+    if (!map) return;
+
+    map.on("singleclick", async (event) => {
+      map.forEachFeatureAtPixel(event.pixel, async (feature) => {
+        const id = feature.get("id");
+        if (!id) return;
+
+        try {
+          const response = await getArea(id);
+          // console.log("Dados completos da área:", response.data);
+        } catch (error) {
+          console.error("Erro ao buscar área:", error);
+        }
+      });
+    });
+
+    return () => map.un("singleclick", () => {});
+  }, [map]);
+
+  useEffect(() => {
+    if (!map) return;
+
+    const clickHandler = (event: any) => {
+      map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        const id = feature.get("id");
+        if (!id) return;
+
+        // console.log("ID da área clicada:", id);
+
+        setSelectedAreaId(id);
+        setOpenSheet(true);
+      });
+    };
+
+    map.on("singleclick", clickHandler);
+
+    return () => {
+      map.un("singleclick", clickHandler);
+    };
+  }, [map]);
+
   return (
     <div>
+      <AreaSheet
+        id={selectedAreaId}
+        open={openSheet}
+        onOpenChange={setOpenSheet}
+      />
       {loading && <p>Carregando áreas...</p>}
       <div
         ref={mapRef}
