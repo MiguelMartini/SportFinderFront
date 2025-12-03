@@ -10,7 +10,7 @@ interface BtnProps {
 function DeleteBtn({ value, onConfirm, style }: BtnProps) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger asChild >
         <Button
           className={style}
         >
@@ -18,7 +18,7 @@ function DeleteBtn({ value, onConfirm, style }: BtnProps) {
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-[#E3F1F4] border-none">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -27,8 +27,8 @@ function DeleteBtn({ value, onConfirm, style }: BtnProps) {
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-700 cursor-pointer" onClick={onConfirm}>Excluir</AlertDialogAction>
+          <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
+          <AlertDialogAction className="bg-red-600 hover:bg-red-700 cursor-pointer" onClick={onConfirm}>Excluir</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

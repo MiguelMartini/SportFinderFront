@@ -5,7 +5,7 @@ body{
   margin: 0;
 
   font-family: Inter;
-  background: #f1f1f1f1;
+  background: #E3F1F4;
 }
 
 @custom-variant dark (&:is(.dark *));

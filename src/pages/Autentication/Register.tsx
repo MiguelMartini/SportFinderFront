@@ -76,11 +76,11 @@ const Register = () => {
   return (
     <div className="flex w-full h-screen flex-col justify-between">
       <div className="w-full flex items-center justify-center flex-1">
-        <div className="p-6 md:p-10 lg:p-20 bg-white rounded-xl">
-          <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold">
-            Seja bem-vindo
+        <div className="p-6 md:p-10 lg:p-20 bg-[#AAD3DF] rounded-xl inset-shadow-sm shadow-md order border-[#E3F1F4]">
+          <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold text-gray-800">
+            Seja bem-vindo 
           </h1>
-          <p className="font-medium text-base md:text-lg text-gray-500 mt-4 ">
+          <p className="font-medium text-base md:text-lg text-gray-700 mt-4 ">
             Registre-se agora no SportFinder!
           </p>
 
@@ -135,7 +135,7 @@ const Register = () => {
           </div>
           <div className="flex flex-col mt-10 gap-3">
             <Button
-              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
+              className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e]"
               onClick={handleRegister}
             >
               {loading ? <Spinner /> : "Registrar"}
@@ -143,7 +143,7 @@ const Register = () => {
 
             <p className="text-gray-500 font-medium text-sm md:text-base">
               Já possui uma conta?{" "}
-              <Link to="/login" className="text-blue-700 font-medium underline">
+              <Link to="/login" className="text-[#28444d] font-semibold underline">
                 Fazer login
               </Link>
             </p>

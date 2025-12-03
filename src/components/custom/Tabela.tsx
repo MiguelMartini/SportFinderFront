@@ -60,14 +60,14 @@ const Tabela = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px] text-base font-semibold">
+              <TableHead className="w-[100px] text-lg font-semibold">
                 Id
               </TableHead>
-              <TableHead className="text-base font-semibold">Título</TableHead>
-              <TableHead className="text-base font-semibold">
+              <TableHead className="text-lg font-semibold">Título</TableHead>
+              <TableHead className="text-lg font-semibold">
                 Descrição
               </TableHead>
-              <TableHead className="text-right text-base font-semibold">
+              <TableHead className="text-right text-lg font-semibold">
                 Ação
               </TableHead>
             </TableRow>
@@ -82,20 +82,20 @@ const Tabela = () => {
   ) : (
     areas.map((area, index) => (
       <TableRow key={index}>
-        <TableCell className="font-medium">{area.id}</TableCell>
-        <TableCell>{area.titulo}</TableCell>
-        <TableCell className="max-w-[200px] truncate whitespace-nowrap overflow-hidden text-ellipsis">
+        <TableCell className="text-base">{area.id}</TableCell>
+        <TableCell className="text-base">{area.titulo}</TableCell>
+        <TableCell className="max-w-[200px] truncate whitespace-nowrap overflow-hidden text-ellipsis text-base">
           {area.descricao}
         </TableCell>
         <TableCell className="text-right flex justify-center">
           <div className="flex justify-center gap-4">
             <Button
-              className="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+              className="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e] shadow-xl"
               onClick={() => navigate(`/areas/update/${area.id}`)}
             >
               Editar
             </Button>
-            <DeleteBtn value={"Excluir"} onConfirm={() => handleDelete(area.id!, area.titulo)} style="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl"/>
+            <DeleteBtn value={"Excluir"} onConfirm={() => handleDelete(area.id!, area.titulo)} style="active:scale-[.98] md:py-4 lg:py-2 rounded-xl text-white text-base font-bold cursor-pointer bg-red-600 hover:bg-red-700 shadow-xl"/>
           </div>
         </TableCell>
       </TableRow>

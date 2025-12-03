@@ -1,4 +1,5 @@
 import { deleteUser, editUser, getUser } from "@/api/api";
+import Btn from "@/components/custom/Btn";
 import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
 import Navbar from "@/components/custom/Navbar";
@@ -136,8 +137,8 @@ const Editar = () => {
     <div>
       <Navbar />
       <div className="flex flex-col justify-center items-center mt-10 mb-10">
-        <div className="flex flex-col justify-center bg-[#AAD3DF]/60 p-10 rounded-xl inset-shadow-sm shadow-xl/20 ">
-          <p className="flex justify-start font-bold text-2xl">
+        <div className="flex flex-col justify-center bg-[#AAD3DF] p-10 rounded-xl inset-shadow-sm shadow-md border border-[#E3F1F4]">
+          <p className="flex justify-start font-bold text-2xl text-gray-700">
             Configurações de perfil
           </p>
           <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
@@ -237,19 +238,19 @@ const Editar = () => {
           <div className="flex flex-col justify-center mt-10 gap-3 sm:flex-row">
             <Button
               onClick={handleSave}
-              className="order-1 active:scale-[.98] py-4 md:py-6 md:order-3 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl "
+              className="order-1 active:scale-[.98] py-4 md:py-6 md:order-3 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e] shadow-xl "
             >
               {loading ? <Spinner /> : "Salvar"}
             </Button>
             <Button
-              className="order-2 active:scale-[.98] py-4 md:py-6 md:order-1 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700 shadow-xl"
+              className="order-2 active:scale-[.98] py-4 md:py-6 md:order-1 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e] shadow-xl"
               onClick={backMenu}
             >
               Cancelar
             </Button>
             <DeleteBtn
               value={"Deletar"}
-              style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-500 hover:bg-red-700 shadow-xl"
+              style="order-3 active:scale-[.98] py-4 md:py-6 md:order-2 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-red-600 hover:bg-red-700 shadow-xl"
               onConfirm={() => handleDelete()}
             />
           </div>

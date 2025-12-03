@@ -48,7 +48,7 @@ const Menu = () => {
     border-none 
     inset-shadow-sm
     shadow-xl/40 
-    bg-[#AAD3DF]/60
+    bg-[#71B5CA]/60
     backdrop-blur-lg
   "
         >

@@ -155,11 +155,6 @@ const Update = () => {
               <p className="text-xl font-semibold text-gray-700 mt-5">
                 Informações
               </p>
-              {/* <div className="mt-5 ">
-                <div className="bg-gray-50 rounded-xl">
-                <Input type="file"/>
-                </div>
-              </div> */}
               <div className="mt-5 ">
                 <InputForm
                   labelValue={"Titulo"}
