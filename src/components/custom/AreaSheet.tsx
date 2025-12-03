@@ -95,6 +95,26 @@ function AreaSheet({ id, open, onOpenChange }: Props) {
     console.log("Área atualizada: ", area);
   }, [area]);
 
+  const areaSheet = () => {
+    onOpenChange(false)
+    setArea({
+      titulo: "",
+      descricao: "",
+      rua: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+      cep: "",
+      numero: "",
+      complemento: "",
+    });
+    setContato({
+      email: "",
+      phone:  "",
+      instagram: "",
+    });
+  }
+
   return (
     <div>
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -144,7 +164,7 @@ function AreaSheet({ id, open, onOpenChange }: Props) {
           </div>
 
           <SheetFooter className="pb-10">
-            <Button onClick={() => onOpenChange(false)}>Votlar</Button>
+            <Button onClick={() => areaSheet()}>Votlar</Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>
