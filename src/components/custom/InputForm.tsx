@@ -14,7 +14,7 @@ interface inputFormProps {
 const InputForm = ({ labelValue, placeholder, value, type, error, onChange, disabled, onBlur }: inputFormProps) => {
   return (
     <div>
-      <label className="text-base md:text-lg font-medium">{labelValue}</label>
+      <label className="text-gray-700 text-base md:text-lg font-medium">{labelValue}</label>
       <Input
         className="flex bg-gray-50 text-sm w-full p-3 md:p-4 lg:p-5 rounded-xl"
         placeholder={placeholder}

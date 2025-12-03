@@ -4,6 +4,7 @@ import InputForm from "@/components/custom/inputForm";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/context/AuthContext";
+import { Earth } from "lucide-react";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -79,12 +80,12 @@ const Login = () => {
   return (
     <div className="flex w-full h-screen flex-col justify-between">
       <div className="w-full flex items-center justify-center flex-1">
-        <div className="p-6 md:p-10 lg:p-20 bg-white rounded-xl">
-          <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold">
-            Seja bem-vindo
+        <div className="p-6 md:p-10 lg:p-20 bg-[#AAD3DF] rounded-xl inset-shadow-sm shadow-md order border-[#E3F1F4]">
+          <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold text-gray-800">
+            Seja bem-vindo <Earth />
           </h1>
 
-          <p className="font-medium text-base md:text-lg text-gray-500 mt-4 ">
+          <p className="font-medium text-base md:text-lg text-gray-700 mt-4 ">
             Seja bem vindo ao SportFinder!
           </p>
 
@@ -115,14 +116,14 @@ const Login = () => {
             <p>
               <a
                 href="#"
-                className="text-blue-700 underline font-medium text-sm md:text-base"
+                className="text-[#28444d] underline font-semibold text-sm md:text-base"
               >
                 Esqueceu a senha?
               </a>
             </p>
           </div>
           <div className="flex flex-col mt-5 gap-3">
-            <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-amber-600 hover:bg-blue-700"
+            <Button className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e]"
             onClick={handleLogin}>
               {loading ? <Spinner /> : "Entrar"}
             </Button>
@@ -131,7 +132,7 @@ const Login = () => {
               Não possui conta?{" "}
               <Link
                 to="/register"
-                className="text-blue-700 font-medium underline"
+                className="text-[#28444d] font-semibold underline"
               >
                 Cadastre-se
               </Link>
