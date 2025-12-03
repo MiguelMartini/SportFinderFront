@@ -16,6 +16,7 @@ interface User {
   email: string;
   documento: string;
   phone:string;
+  instagram:string;
 }
 
 const Editar = () => {
@@ -25,6 +26,7 @@ const Editar = () => {
     email: "",
     documento: "",
     phone: "",
+    instagram: ""
   });
 
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ const Editar = () => {
     confirmedPass?: string;
     documento?: string;
     phone?:string;
+    instagram?:string;
   }>({});
   useEffect(() => {
     const fectchUser = async () => {
@@ -85,6 +88,7 @@ const Editar = () => {
         role: "admin",
         documento: user.documento,
         phone: user.phone,
+        instagram: user.instagram,
         password,
         password_confirmation: confirmedPass,
       });
@@ -97,6 +101,8 @@ const Editar = () => {
           email: user.email,
           role: "usuario",
           documento: "",
+          phone: user.phone,
+          instagram: user.instagram,
           password,
           password_confirmation: confirmedPass,
         });
@@ -213,6 +219,15 @@ const Editar = () => {
                   value={user.phone ?? ""}
                   onChange={(v) => handleChange("phone", v)}
                   error={errors.phone}
+                  />
+              </div>
+              <div className="w-full">
+                <InputForm
+                  labelValue={"instagram"}
+                  placeholder={"Instagram para divulgação"}
+                  value={user.instagram ?? ""}
+                  onChange={(v) => handleChange("instagram", v)}
+                  error={errors.instagram}
                   />
               </div>
                   </div>
