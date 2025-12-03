@@ -15,6 +15,7 @@ interface User {
   name: string;
   email: string;
   documento: string;
+  phone:string;
 }
 
 const Editar = () => {
@@ -23,6 +24,7 @@ const Editar = () => {
     name: "",
     email: "",
     documento: "",
+    phone: "",
   });
 
   const navigate = useNavigate();
@@ -38,6 +40,7 @@ const Editar = () => {
     password?: string;
     confirmedPass?: string;
     documento?: string;
+    phone?:string;
   }>({});
   useEffect(() => {
     const fectchUser = async () => {
@@ -77,13 +80,14 @@ const Editar = () => {
     try {
       if (admIn) {
         await editUser({
-          name: user.name,
-          email: user.email,
-          role: "admin",
-          documento: user.documento,
-          password,
-          password_confirmation: confirmedPass,
-        });
+        name: user.name,
+        email: user.email,
+        role: "admin",
+        documento: user.documento,
+        phone: user.phone,
+        password,
+        password_confirmation: confirmedPass,
+      });
 
         toast.success("Usuário atualizado com sucesso");
         navigate("/home");
@@ -182,24 +186,36 @@ const Editar = () => {
           </div>
           {admIn && (
             <div className="flex flex-row items-start gap-4">
-              <div className="w-1/2">
+              <div className="grid grid-cols-2 gap-4 w-full">
+
+              <div className="w-full">
                 <InputForm
                   labelValue={"Documento"}
                   placeholder={"Documento CNPJ"}
                   value={user.documento ?? ""}
                   onChange={(v) => handleChange("documento", v)}
                   error={errors.documento}
-                />
+                  />
               </div>
-              <div className="w-1/2">
+              <div className="w-full">
                 <InputForm
                   labelValue={"Papel"}
                   placeholder={"Admin"}
                   value={"Admin"}
                   disabled={true}
                   onChange={() => null}
-                />
+                  />
               </div>
+              <div className="w-full">
+                <InputForm
+                  labelValue={"Telefone"}
+                  placeholder={"Telefone para contato"}
+                  value={user.phone ?? ""}
+                  onChange={(v) => handleChange("phone", v)}
+                  error={errors.phone}
+                  />
+              </div>
+                  </div>
             </div>
           )}
 

@@ -54,6 +54,7 @@ export const editUser = (data: {
   email?: string;
   name?: string;
   documento?: string;
+  phone?: string;
   role?: string;
   password: string;
   password_confirmation: string;
