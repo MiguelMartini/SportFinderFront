@@ -31,16 +31,16 @@ export function ModalArea({
 }: ModalAreaProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Criar Área</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="bg-[#AAD3DF] rounded-xl inset-shadow-sm shadow-md order border-[#E3F1F4] sm:max-w-[425px]">
+        <DialogHeader className="p-2">
+          <DialogTitle className="text-2xl font-semibold text-gray-800">Criar Área</DialogTitle>
+          <DialogDescription className="text-gray-700 text-base">
             Informe os dados da área e clique em salvar.
           </DialogDescription>
         </DialogHeader>
-
+        <div className="p-0.5 bg-gray-700 rounded-4xl"></div>
         <div className="grid gap-2">
-          <div className="mt-4">
+          <div className="mt-2">
                 <InputForm
                     labelValue="Título"
                     placeholder="Digite o título da área"
