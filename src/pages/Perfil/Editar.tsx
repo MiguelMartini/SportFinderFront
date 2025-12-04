@@ -1,5 +1,4 @@
 import { deleteUser, editUser, getUser } from "@/api/api";
-import Btn from "@/components/custom/Btn";
 import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
 import Navbar from "@/components/custom/Navbar";
@@ -14,22 +13,14 @@ import { toast } from "sonner";
 interface User {
   id: number;
   name: string;
+  city: string;
   email: string;
   documento: string;
-  phone:string;
-  instagram:string;
+  phone: string;
+  instagram: string;
 }
 
 const Editar = () => {
-  const [user, setUser] = useState<User>({
-    id: 0,
-    name: "",
-    email: "",
-    documento: "",
-    phone: "",
-    instagram: ""
-  });
-
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmedPass, setConfirmedPass] = useState("");
@@ -37,15 +28,27 @@ const Editar = () => {
   const [loading, setLoading] = useState(false);
   const [admIn, setAdmIn] = useState(false);
 
+  const [user, setUser] = useState<User>({
+    id: 0,
+    name: "",
+    email: "",
+    city: "",
+    documento: "",
+    phone: "",
+    instagram: "",
+  });
+
   const [errors, setErrors] = useState<{
     email?: string;
     name?: string;
     password?: string;
+    city?: string;
     confirmedPass?: string;
     documento?: string;
-    phone?:string;
-    instagram?:string;
+    phone?: string;
+    instagram?: string;
   }>({});
+
   useEffect(() => {
     const fectchUser = async () => {
       try {
@@ -64,13 +67,6 @@ const Editar = () => {
     fectchUser();
   }, []);
 
-  const handleDelete = async () => {
-    const response = await deleteUser(user.id);
-    toast.success(response.data.message);
-    sessionStorage.removeItem("token");
-    navigate("/login");
-  };
-
   const handleChange = (field: string, value: string) => {
     setUser((prev) => ({
       ...prev,
@@ -84,15 +80,16 @@ const Editar = () => {
     try {
       if (admIn) {
         await editUser({
-        name: user.name,
-        email: user.email,
-        role: "admin",
-        documento: user.documento,
-        phone: user.phone,
-        instagram: user.instagram,
-        password,
-        password_confirmation: confirmedPass,
-      });
+          name: user.name,
+          email: user.email,
+          city: user.city,
+          role: "admin",
+          documento: user.documento,
+          phone: user.phone,
+          instagram: user.instagram,
+          password,
+          password_confirmation: confirmedPass,
+        });
 
         toast.success("Usuário atualizado com sucesso");
         navigate("/home");
@@ -100,6 +97,7 @@ const Editar = () => {
         await editUser({
           name: user.name,
           email: user.email,
+          city: user.city,
           role: "usuario",
           documento: "",
           phone: user.phone,
@@ -130,9 +128,14 @@ const Editar = () => {
     }
     setLoading(false);
   };
-  const backMenu = () => {
-    navigate("/home");
+
+  const handleDelete = async () => {
+    const response = await deleteUser(user.id);
+    toast.success(response.data.message);
+    sessionStorage.removeItem("token");
+    navigate("/login");
   };
+
   return (
     <div>
       <Navbar />
@@ -162,23 +165,34 @@ const Editar = () => {
           </div>
           <div className="mt-4">
             <InputForm
-              labelValue={"Senha"}
-              placeholder={"Digite sua senha"}
-              type="password"
-              onChange={setPassword}
-              value={password}
-              error={errors.password}
+              labelValue={"Cidade"}
+              placeholder={"Digite sua cidade"}
+              value={user.city}
+              onChange={(v) => handleChange("city", v)}
+              error={errors.city}
             />
           </div>
-          <div className="mt-4">
-            <InputForm
-              labelValue={"Confirmar senha"}
-              placeholder={"confirme sua senha"}
-              type="password"
-              value={confirmedPass}
-              onChange={setConfirmedPass}
-              error={errors.confirmedPass}
-            />
+          <div className="flex flex-col sm:flex-row sm:gap-4">
+            <div className="mt-4">
+              <InputForm
+                labelValue={"Senha"}
+                placeholder={"Digite sua senha"}
+                type="password"
+                onChange={setPassword}
+                value={password}
+                error={errors.password}
+              />
+            </div>
+            <div className="mt-4">
+              <InputForm
+                labelValue={"Confirmar senha"}
+                placeholder={"confirme sua senha"}
+                type="password"
+                value={confirmedPass}
+                onChange={setConfirmedPass}
+                error={errors.confirmedPass}
+              />
+            </div>
           </div>
           <div className="p-0.5 bg-gray-500 mt-5 rounded-4xl"></div>
           <div className="flex items-center space-x-2 my-5">
@@ -194,44 +208,43 @@ const Editar = () => {
           {admIn && (
             <div className="flex flex-row items-start gap-4">
               <div className="grid grid-cols-2 gap-4 w-full">
-
-              <div className="w-full">
-                <InputForm
-                  labelValue={"Documento"}
-                  placeholder={"Documento CNPJ"}
-                  value={user.documento ?? ""}
-                  onChange={(v) => handleChange("documento", v)}
-                  error={errors.documento}
+                <div className="w-full">
+                  <InputForm
+                    labelValue={"Documento"}
+                    placeholder={"Documento CNPJ"}
+                    value={user.documento ?? ""}
+                    onChange={(v) => handleChange("documento", v)}
+                    error={errors.documento}
                   />
-              </div>
-              <div className="w-full">
-                <InputForm
-                  labelValue={"Papel"}
-                  placeholder={"Admin"}
-                  value={"Admin"}
-                  disabled={true}
-                  onChange={() => null}
+                </div>
+                <div className="w-full">
+                  <InputForm
+                    labelValue={"Papel"}
+                    placeholder={"Admin"}
+                    value={"Admin"}
+                    disabled={true}
+                    onChange={() => null}
                   />
-              </div>
-              <div className="w-full">
-                <InputForm
-                  labelValue={"Telefone"}
-                  placeholder={"Telefone para contato"}
-                  value={user.phone ?? ""}
-                  onChange={(v) => handleChange("phone", v)}
-                  error={errors.phone}
+                </div>
+                <div className="w-full">
+                  <InputForm
+                    labelValue={"Telefone"}
+                    placeholder={"Telefone para contato"}
+                    value={user.phone ?? ""}
+                    onChange={(v) => handleChange("phone", v)}
+                    error={errors.phone}
                   />
-              </div>
-              <div className="w-full">
-                <InputForm
-                  labelValue={"instagram"}
-                  placeholder={"Instagram para divulgação"}
-                  value={user.instagram ?? ""}
-                  onChange={(v) => handleChange("instagram", v)}
-                  error={errors.instagram}
+                </div>
+                <div className="w-full">
+                  <InputForm
+                    labelValue={"instagram"}
+                    placeholder={"Instagram para divulgação"}
+                    value={user.instagram ?? ""}
+                    onChange={(v) => handleChange("instagram", v)}
+                    error={errors.instagram}
                   />
+                </div>
               </div>
-                  </div>
             </div>
           )}
 
@@ -244,7 +257,7 @@ const Editar = () => {
             </Button>
             <Button
               className="order-2 active:scale-[.98] py-4 md:py-6 md:order-1 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e] shadow-xl"
-              onClick={backMenu}
+              onClick={() => navigate("/home")}
             >
               Cancelar
             </Button>
