@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
 import InputForm from "@/components/custom/inputForm";
+import Icon from "../../assets/icon-c.png";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -60,10 +61,10 @@ const Register = () => {
         });
         setTimeout(function () {
           setErrors({});
-          setStates();
         }, 3000);
 
-        toast.error("error");
+        toast.error(error.response.data.status + ": Verifique os campos");
+        console.log()
         setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
@@ -75,11 +76,19 @@ const Register = () => {
 
   return (
     <div className="flex w-full h-screen flex-col justify-between">
-      <div className="w-full flex items-center justify-center flex-1">
-        <div className="p-6 md:p-10 lg:p-20 bg-[#AAD3DF] rounded-xl inset-shadow-sm shadow-md order border-[#E3F1F4]">
+      <div className="w-full flex items-center justify-center flex-1 py-4">
+        <div className="p-6 md:p-10 lg:p-10 lg:px-15 bg-[#AAD3DF] rounded-xl inset-shadow-sm shadow-md order border-[#E3F1F4]">
+          <div className="flex flex-col items-center">
+
+          <img
+              src={Icon}
+              alt="Icone mundo"
+              className="mb-4 w-[65px] h-[65px] sm:w-[90px] sm:h-[90px] md:w-[96px] md:h-[96px]"
+              />
           <h1 className="text-3xl md:text-4xl flex justify-center lg:text-5xl font-semibold text-gray-800">
             Seja bem-vindo 
           </h1>
+              </div>
           <p className="font-medium text-base md:text-lg text-gray-700 mt-4 ">
             Registre-se agora no SportFinder!
           </p>
@@ -114,6 +123,7 @@ const Register = () => {
               />
           </div>
 
+<div className="flex flex-col sm:flex-row sm:gap-4">
           <div className="mt-4">
             <InputForm 
               labelValue={"Senha"} 
@@ -133,6 +143,7 @@ const Register = () => {
               type="password"
               />
           </div>
+              </div>
           <div className="flex flex-col mt-10 gap-3">
             <Button
               className="active:scale-[.98] py-4 md:py-6 lg:py-7 rounded-xl text-white text-lg font-bold cursor-pointer bg-[#3f6874] hover:bg-[#578d9e]"

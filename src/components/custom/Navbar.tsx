@@ -26,11 +26,12 @@ const Navbar = (props: Props) => {
   const handleLogout = async () => {
     try {
       await logOut();
+      toast.success("Deslogado com sucesso");
     } catch (error) {
-      toast.error("Erro ao fazer logout: ");
+      toast.error("Erro ao fazer logout ");
     } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user_id");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("user_id");
       navigate("/login");
     }
   };
