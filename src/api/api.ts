@@ -113,7 +113,7 @@ export const deleteArea = (id:number) => {
 };
 
 export const logOut = () => {
-  sessionStorage.removeItem("token")
+  // sessionStorage.removeItem("token")
   return api.post("/logout");
 };
 

@@ -1,7 +1,6 @@
 import { editArea, getArea } from "@/api/api";
 import Btn from "@/components/custom/Btn";
 import InputForm from "@/components/custom/inputForm";
-import Menu from "@/components/custom/Menu";
 import Navbar from "@/components/custom/Navbar";
 import TextForm from "@/components/custom/TextForm";
 import { Spinner } from "@/components/ui/spinner";
@@ -150,7 +149,7 @@ const Update = () => {
             Editar área esportiva : Id #{id}
           </p>
           <div className="p-0.5 bg-gray-500 mt-3 rounded-4xl"></div>
-          <div className="lg:flex flex-row justify-center sm:flex flex-col">
+          <div className="flex flex-col sm:flex sm:flex-row justify-center">
             <div>
               <p className="text-xl font-semibold text-gray-700 mt-5">
                 Informações
