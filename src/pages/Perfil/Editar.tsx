@@ -1,12 +1,13 @@
 import { deleteUser, editUser, getUser } from "@/api/api";
 import DeleteBtn from "@/components/custom/DeleteBtn";
 import InputForm from "@/components/custom/inputForm";
+import Loading from "@/components/custom/Loading";
 import Navbar from "@/components/custom/Navbar";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Switch } from "@/components/ui/switch";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -15,9 +16,21 @@ interface User {
   name: string;
   city: string;
   email: string;
-  documento: string;
-  phone: string;
-  instagram: string;
+  documento?: string;
+  phone?: string;
+  instagram?: string;
+  role?: string;
+}
+
+interface ErrorState {
+  email?: string;
+  name?: string;
+  password?: string;
+  city?: string;
+  confirmedPass?: string;
+  documento?: string;
+  phone?: string;
+  instagram?: string;
 }
 
 const Editar = () => {
@@ -25,108 +38,87 @@ const Editar = () => {
   const [password, setPassword] = useState("");
   const [confirmedPass, setConfirmedPass] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [admIn, setAdmIn] = useState(false);
-
   const [user, setUser] = useState<User>({
     id: 0,
     name: "",
     email: "",
     city: "",
-    documento: "",
-    phone: "",
-    instagram: "",
   });
 
-  const [errors, setErrors] = useState<{
-    email?: string;
-    name?: string;
-    password?: string;
-    city?: string;
-    confirmedPass?: string;
-    documento?: string;
-    phone?: string;
-    instagram?: string;
-  }>({});
+  const [loading, setLoading] = useState(false);
+  const [loadingUser, setLoadingUser] = useState(true);
+  const [admIn, setAdmIn] = useState(false);
+  const [errors, setErrors] = useState<ErrorState>({})
 
-  useEffect(() => {
-    const fectchUser = async () => {
-      try {
-        const response = await getUser();
-        const data = response.data.message;
-        setUser(data);
-        setAdmIn(data.role === "admin");
-        console.log(data.role);
-        toast.success("Dados carregados com sucesso!");
-      } catch (error: any) {
-        console.log(error.data);
-        toast.error("Erro ao buscar usuário");
-      }
-    };
+  const fetchUser = useCallback(async () => {
+    try{
+      const response = await getUser();
+      const data = response.data.message;
 
-    fectchUser();
+      setUser(data);
+      setAdmIn(data.role === "admin");
+    } catch{
+      toast.error("Erro ao buscar usuário");
+    } finally{
+      setLoadingUser(false)
+    }
   }, []);
 
-  const handleChange = (field: string, value: string) => {
-    setUser((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  if (loadingUser) {
+    return <Loading/>
+  }
+
+  const handleChange = (field: keyof User, value: string) => {
+     setUser((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
     setLoading(true);
     setErrors({});
-    try {
-      if (admIn) {
-        await editUser({
-          name: user.name,
-          email: user.email,
-          city: user.city,
-          role: "admin",
-          documento: user.documento,
-          phone: user.phone,
-          instagram: user.instagram,
-          password,
-          password_confirmation: confirmedPass,
-        });
 
-        toast.success("Usuário atualizado com sucesso");
-        navigate("/home");
-      } else {
-        await editUser({
-          name: user.name,
-          email: user.email,
-          city: user.city,
-          role: "usuario",
-          documento: "",
-          phone: user.phone,
-          instagram: user.instagram,
-          password,
-          password_confirmation: confirmedPass,
-        });
-        toast.success("Usuário atualizado com sucesso");
-        navigate("/home");
+    const payload: any = {
+      ...user,
+      role: admIn ? "admin" : "usuario",
+      password,
+      password_confirmation: confirmedPass,
+    };
+
+      if (admIn) {
+        payload.documento = user.documento;
+        payload.phone = user.phone;
+        payload.instagram = user.instagram;
       }
+
+    try {
+      await editUser(payload);
+      toast.success("Usuário atualizado com sucesso");
+      navigate("/home");
+
     } catch (error: any) {
-      if (error.response && error.response.data.message) {
+      if (error.response?.data.message) {
+        const backendErrors: ErrorState = {};
         const msgs = error.response.data.message;
-        const backendErrors: any = {};
 
         Object.keys(msgs).forEach((field) => {
-          backendErrors[field] = msgs[field][0];
+          backendErrors[field as keyof ErrorState] = msgs[field][0];
         });
-        setTimeout(function () {
-          setErrors({});
-        }, 5000);
 
         setErrors(backendErrors);
+        setTimeout(function() {
+          setErrors({});
+        }, 4000);
+
         toast.error("Verifique os campos");
       } else {
         toast.error("Erro de conexão com o servidor.");
       }
+    }finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleDelete = async () => {
