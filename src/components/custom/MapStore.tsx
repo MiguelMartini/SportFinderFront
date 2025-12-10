@@ -115,10 +115,12 @@ function MapStore() {
   const handleCreate = async () => {
     setLoading(true);
     setErrors({});
+
     try {
       const response = await createArea(form);
       toast.success(`${response.data.message}`);
       navigate("/home");
+
     } catch (error: any) {
       console.log(error);
       if (error.response && error.response.data.message) {
@@ -136,9 +138,10 @@ function MapStore() {
         toast.error(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
-      }
+      } 
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
