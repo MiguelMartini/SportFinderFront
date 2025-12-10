@@ -19,6 +19,7 @@ import { fromLonLat } from "ol/proj.js";
 import { getArea, getAreas, getMyself } from "@/api/api";
 import mapPin2 from "../../assets/mapPin2.svg";
 import AreaSheet from "./AreaSheet";
+import Loading from "./Loading";
 
 interface Area {
   id?: number;
@@ -174,16 +175,21 @@ export default function MapOL() {
 
   return (
     <div>
-      <AreaSheet
-        id={selectedAreaId}
-        open={openSheet}
-        onOpenChange={setOpenSheet}
-      />
-      {loading && <p>Carregando áreas...</p>}
-      <div
-        ref={mapRef}
-        style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <AreaSheet
+            id={selectedAreaId}
+            open={openSheet}
+            onOpenChange={setOpenSheet}
+          />
+          <div
+            ref={mapRef}
+            style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
+          />
+        </>
+      )}
     </div>
   );
 }

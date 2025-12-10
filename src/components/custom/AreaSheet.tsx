@@ -146,7 +146,7 @@ function AreaSheet({ id, open, onOpenChange }: Props) {
                       Email: {area.email}
                     </p>
                     <p className="text-base text-gray-700">
-                      Telefone: {area.phone}
+                    Telefone: {area.phone}
                     </p>
                     <p className="text-base text-gray-700">
                       Instagram: {area.instagram}

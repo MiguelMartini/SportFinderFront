@@ -4,9 +4,11 @@ import Navbar from "@/components/custom/Navbar";
 const Home = () => {
   
   return (
-     <div>
+     <div className="h-screen flex flex-col overflow-hidden">
       <Navbar/>
-      <MapComponent/>
+      <div className="flex-1">
+        <MapComponent/>
+      </div>
     </div>
   )
 };
