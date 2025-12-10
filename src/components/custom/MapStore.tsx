@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ModalArea } from "./ModalArea";
 import axios from "axios";
+import Loading from "./Loading";
 
 interface FormState {
   titulo: string;
@@ -37,7 +38,7 @@ interface FormState {
   lon: number;
 }
 
-interface Area{
+interface Area {
   lon: number;
   lat: number;
 }
@@ -103,7 +104,6 @@ function MapStore() {
         bairro: data.bairro || "",
         cidade: data.localidade || "",
         estado: data.uf || "",
-        complemento: data.complemento || "",
       }));
 
       toast.success("Endereço atualizado!");
@@ -142,26 +142,26 @@ function MapStore() {
   };
 
   useEffect(() => {
-      async function localicaoUser(){
-        try{
-          const response = await getMyself();
-          const dados = response.data.user
-          const userLoc: Area = {
-            lat: Number(dados.lat),
-            lon: Number(dados.lon),
-          };
-  
-          setUserCity([userLoc])
-        }catch(error: any){
-          console.log(error)
-        }
+    async function localicaoUser() {
+      try {
+        const response = await getMyself();
+        const dados = response.data.user;
+        const userLoc: Area = {
+          lat: Number(dados.lat),
+          lon: Number(dados.lon),
+        };
+
+        setUserCity([userLoc]);
+      } catch (error: any) {
+        console.log(error);
       }
-      localicaoUser();
-    }, []);
+    }
+    localicaoUser();
+  }, []);
 
   useEffect(() => {
     if (!mapRef.current) return;
-    if (userCity.length === 0) return; 
+    if (userCity.length === 0) return;
 
     const initialMap = new Map({
       target: mapRef.current,
@@ -187,7 +187,7 @@ function MapStore() {
 
       // Também adiciona ao estado areas para manter tudo junto
       setForm((prev) => ({
-         ...prev,
+        ...prev,
         lat,
         lon,
       }));
@@ -227,19 +227,24 @@ function MapStore() {
 
   return (
     <div>
-      {loading && <p>Carregando áreas...</p>}
-      <div
-        ref={mapRef}
-        style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
-      />
-      <ModalArea
-        open={openModal}
-        onOpenChange={setOpenModal}
-        form={form}
-        handleChange={handleChange}
-        handleCreate={handleCreate}
-        consultaCep={consultaCep}
-      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <div
+            ref={mapRef}
+            style={{ width: "100%", height: "100vh", border: "1px solid #ccc" }}
+          />
+          <ModalArea
+            open={openModal}
+            onOpenChange={setOpenModal}
+            form={form}
+            handleChange={handleChange}
+            handleCreate={handleCreate}
+            consultaCep={consultaCep}
+          />
+        </>
+      )}
     </div>
   );
 }
