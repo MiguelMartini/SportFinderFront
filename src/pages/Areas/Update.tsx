@@ -21,43 +21,62 @@ interface FormState {
   complemento: string;
 }
 
+const emptyForm: FormState = {
+  titulo: "",
+  descricao: "",
+  rua: "",
+  numero: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+  cep: "",
+  complemento: "",
+};
+
 const Update = () => {
   const { id } = useParams();
   const areaId = Number(id);
 
-  const [form, setForm] = useState<FormState>({
-    titulo: "",
-    descricao: "",
-    rua: "",
-    numero: "",
-    bairro: "",
-    cidade: "",
-    estado: "",
-    cep: "",
-    complemento: "",
-  });
-
+  const [form, setForm] = useState<FormState>(emptyForm);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const [errors, setErrors] = useState<{
-    titulo: string;
-    descricao?: string;
-    rua: string;
-    numero?: string;
-    bairro: string;
-    cidade: string;
-    estado: string;
-    cep: string;
-    complemento?: string;
-  }>({});
+  const handleChange = (field: string, value: string) => {
+    setForm((prev) => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+const consultaCep = async (cep: string) => {
+  if(cep.length < 8) return;
+
+    try {
+      const {data} = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      if (data.erro) return toast.error("CEP não encontrado");
+
+      setForm((prev) => ({
+        ...prev,
+        rua: data.logradouro || "",
+        bairro: data.bairro || "",
+        cidade: data.localidade || "",
+        estado: data.uf || "",
+      }));
+
+      toast.success("Endereço atualizado!");
+    } catch (error) {
+      toast.error("Erro ao buscar CEP");
+    }
+  };
 
   useEffect(() => {
-    const fectchArea = async () => {
+    (async () => {
       try {
         const response = await getArea(areaId);
         const info = response.data.message;
         const endereco = response.data.message.endereco;
+
         setForm((prev) => ({
           ...prev,
           titulo: info.titulo,
@@ -70,47 +89,17 @@ const Update = () => {
           numero: endereco.numero || "",
           complemento: endereco.complemento || "",
         }));
-        toast.success("Dados Carregados com sucesso!");
+
       } catch (error: any) {
         console.log(error);
       }
-    };
-    fectchArea();
-  }, []);
-
-  const handleChange = (field: string, value: string) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-  const consultaCep = async (cep: string) => {
-    try {
-      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = response.data;
-      if (data.erro) {
-        toast.error("CEP não encontrado");
-        return;
-      }
-
-      setForm((prev) => ({
-        ...prev,
-        rua: data.logradouro || "",
-        bairro: data.bairro || "",
-        cidade: data.localidade || "",
-        estado: data.uf || "",
-        complemento: data.complemento || "",
-      }));
-
-      toast.success("Endereço atualizado!");
-    } catch (error) {
-      toast.error("Erro ao buscar CEP");
-    }
-  };
+    })();
+  }, [areaId]);
 
   const handleUpdate = async () => {
     setLoading(true);
     setErrors({});
+
     try {
       const payload = {
         ...form,
@@ -119,21 +108,23 @@ const Update = () => {
       const response = await editArea(payload, id);
       toast.success(`${response.data.message}`);
       navigate("/home");
+
     } catch (error: any) {
       console.log(error);
-      if (error.response && error.response.data.message) {
+      if (error.response?.data?.message) {
         const msgs = error.response.data.message;
-        const backendErrors: any = {};
+        const backendErrors: Record<string, string> = {};
 
         Object.keys(msgs).forEach((field) => {
           backendErrors[field] = msgs[field][0];
         });
+
+        
+        setErrors(backendErrors);
+        toast.error("Verifique os campos");
         setTimeout(function () {
           setErrors({});
         }, 5000);
-
-        toast.error("Verifique os campos");
-        setErrors(backendErrors);
       } else {
         toast.error("Erro de conexão com o servidor.");
       }

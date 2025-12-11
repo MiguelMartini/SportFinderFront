@@ -5,9 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [openAreas, setOpenAreas] = useState(false);
   const [openPerfil, setOpenPerfil] = useState(false);
   const navigate = useNavigate();
