@@ -1,6 +1,6 @@
 import { editArea, getArea } from "@/api/api";
 import Btn from "@/components/custom/Btn";
-import InputForm from "@/components/custom/inputForm";
+import InputForm from "@/components/custom/InputForm";
 import Navbar from "@/components/custom/Navbar";
 import TextForm from "@/components/custom/TextForm";
 import { Spinner } from "@/components/ui/spinner";

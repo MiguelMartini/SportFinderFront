@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Spinner } from "@/components/ui/spinner";
-import InputForm from "@/components/custom/inputForm";
+import InputForm from "@/components/custom/InputForm";
 import Icon from "../../assets/icon-c.png";
 
 const Register = () => {

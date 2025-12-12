@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import InputForm from "./inputForm";
+import InputForm from "./InputForm";
 
 interface ModalAreaProps {
   open: boolean;

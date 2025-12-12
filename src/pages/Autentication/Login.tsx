@@ -1,6 +1,6 @@
 import { loginUser } from "@/api/api";
 import Copyrights from "@/components/custom/Copyrights";
-import InputForm from "@/components/custom/inputForm";
+import InputForm from "@/components/custom/InputForm";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useAuth } from "@/context/AuthContext";
