@@ -132,7 +132,7 @@ function AreaSheet({ id, open, onOpenChange }: Props) {
                     <p className="text-base text-gray-700">
                       Nome: {area.titulo}
                     </p>
-                    <p className="text-base text-gray-700">
+                    <p className="text-base text-gray-700 break-all">
                       Descrição: {area.descricao}
                     </p>
                   </div>
