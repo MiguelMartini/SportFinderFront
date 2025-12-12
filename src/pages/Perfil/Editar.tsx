@@ -1,6 +1,6 @@
 import { deleteUser, editUser, getUser } from "@/api/api";
 import DeleteBtn from "@/components/custom/DeleteBtn";
-import InputForm from "@/components/custom/inputForm";
+import InputForm from "@/components/custom/InputForm";
 import Loading from "@/components/custom/Loading";
 import Navbar from "@/components/custom/Navbar";
 import { Button } from "@/components/ui/button";
